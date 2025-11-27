@@ -12,7 +12,13 @@ require_once __DIR__ . '/send.php';
 ini_set('error_log', __DIR__ . '/php_errors.log');
 
 // Track processed message IDs to prevent duplicates
+$processedMessagesFile = __DIR__ . '/processed_messages.json';
 $processedMessages = [];
+
+// Load processed messages from file
+if (file_exists($processedMessagesFile)) {
+    $processedMessages = json_decode(file_get_contents($processedMessagesFile), true) ?: [];
+}
 
 function env($k, $d = null) {
     if (getenv($k) !== false) return getenv($k);
@@ -81,20 +87,32 @@ logit("Incoming webhook data:", $data);
 
 // Check if this is a message we've already processed
 $messageId = $data['entry'][0]['changes'][0]['value']['messages'][0]['id'] ?? null;
-if ($messageId && in_array($messageId, $GLOBALS['processedMessages'])) {
+if ($messageId && isset($processedMessages[$messageId])) {
     logit("Duplicate message detected, ignoring: $messageId");
     http_response_code(200);
     echo 'EVENT_RECEIVED';
     exit;
 }
 
-// Add to processed messages
+// Add to processed messages and save to file
 if ($messageId) {
-    $GLOBALS['processedMessages'][] = $messageId;
-    // Keep only the last 100 message IDs to prevent memory issues
-    if (count($GLOBALS['processedMessages']) > 100) {
-        $GLOBALS['processedMessages'] = array_slice($GLOBALS['processedMessages'], -100);
+    $processedMessages[$messageId] = time();
+    
+    // Clean up old messages (older than 1 hour)
+    $oneHourAgo = time() - 3600;
+    foreach ($processedMessages as $id => $timestamp) {
+        if ($timestamp < $oneHourAgo) {
+            unset($processedMessages[$id]);
+        }
     }
+    
+    // Keep only the last 1000 message IDs to prevent file from growing too large
+    if (count($processedMessages) > 1000) {
+        $processedMessages = array_slice($processedMessages, -1000, null, true);
+    }
+    
+    // Save to file
+    file_put_contents($processedMessagesFile, json_encode($processedMessages));
 }
 
 if (isset($data['entry'][0]['changes'][0]['value']['messages'][0])) {
@@ -120,7 +138,7 @@ if (isset($data['entry'][0]['changes'][0]['value']['messages'][0])) {
     ]);
 
     // Process message with your scripts
-    $reply = processMessage($from, $text);
+    $reply = processMessage($from, $text, $messageId);
     logit("Generated reply:", $reply);
 
     if ($reply) {

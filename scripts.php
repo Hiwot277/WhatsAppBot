@@ -18,51 +18,74 @@ function runScripts(&$from, &$text, array &$state) {
         $state = ['step' => 'welcome'];
     }
 
-    $lc = trim($text);
+    $lc = strtolower(trim($text));
     
     // Log the input and current state for debugging
     error_log("Processing input: '$lc' with state: " . json_encode($state));
     
     // Handle restart command at any point
-    if (in_array(strtolower($lc), ['restart', 'start over', 'reset', 'hi', 'hello'])) {
+    if (in_array($lc, ['restart', 'start over', 'reset', 'hi', 'hello'])) {
         $state = ['step' => 'welcome'];
         error_log("Resetting to welcome state");
         return getWelcomeMessage();
     }
 
-    // Main conversation flow
-    switch ($state['step']) {
-        case 'welcome':
-            return handleWelcome($state, $lc);
-            
-        case 'area_selection':
-            return handleAreaSelection($state, $lc);
-            
-        case 'employment_status':
-            return handleEmploymentStatus($state, $lc);
-            
-        case 'salary_range':
-            return handleSalaryRange($state, $lc);
-            
-        case 'tax_criteria':
-            return handleTaxCriteria($state, $lc);
-            
-        case 'eligibility_check_1':
-            return handleEligibilityCheck1($state, $lc);
-            
-        case 'eligibility_check_2':
-            return handleEligibilityCheck2($state, $lc);
-            
-        case 'collect_info':
-            return collectUserInfo($state, $lc);
-            
-        case 'savings_potential':
-            return handleSavingsPotential($state, $lc);
-            
-        default:
-            error_log("Unknown step: " . ($state['step'] ?? 'null') . ", resetting to welcome");
-            $state['step'] = 'welcome';
-            return getWelcomeMessage();
+    try {
+        // Main conversation flow
+        $currentStep = $state['step'] ?? 'welcome';
+        error_log("Current step: $currentStep");
+        
+        switch ($currentStep) {
+            case 'welcome':
+                error_log("Handling welcome step");
+                return handleWelcome($state, $lc);
+                
+            case 'area_selection':
+                error_log("Handling area selection");
+                return handleAreaSelection($state, $lc);
+                
+            case 'employment_status':
+                error_log("Handling employment status");
+                return handleEmploymentStatus($state, $lc);
+                
+            case 'salary_range':
+                error_log("Handling salary range");
+                return handleSalaryRange($state, $lc);
+                
+            case 'tax_criteria':
+                error_log("Handling tax criteria");
+                return handleTaxCriteria($state, $lc);
+                
+            case 'eligibility_check_1':
+                error_log("Handling eligibility check 1");
+                return handleEligibilityCheck1($state, $lc);
+                
+            case 'eligibility_check_2':
+                error_log("Handling eligibility check 2");
+                return handleEligibilityCheck2($state, $lc);
+                
+            case 'collect_info':
+                error_log("Handling collect info");
+                return collectUserInfo($state, $lc);
+                
+            case 'savings_potential':
+                error_log("Handling savings potential");
+                return handleSavingsPotential($state, $lc);
+                
+            default:
+                error_log("Unknown step: " . $currentStep);
+                $state['step'] = 'welcome';
+                return getWelcomeMessage();
+        }
+    } catch (Exception $e) {
+        error_log("Error in runScripts: " . $e->getMessage());
+        $state['step'] = 'welcome';
+        return [
+            'text' => "I encountered an error. Let's start over. How can I help you?",
+            'buttons' => [
+                ['id' => 'tax_refund', 'text' => 'Tax refund']
+            ]
+        ];
     }
 }
 
@@ -88,14 +111,12 @@ function handleWelcome(&$state, $input) {
         return [
             'text' => "Great, let's get started! For which areas would you like to check how to save?",
             'buttons' => [
-                ['id' => 'tax_refund', 'text' => 'Tax refund'],
-                ['id' => 'utilities', 'text' => 'Utilities'],
-                ['id' => 'subscriptions', 'text' => 'Subscriptions']
+                ['id' => 'tax_refund', 'text' => 'Tax Refund']
             ]
         ];
     } else {
         return [
-            'text' => "No problem! Feel free to come back when you're ready to save. Just say 'hi' to start again."
+            'text' => "Feel free to come back when you're ready to save. Just say 'hi' to start again."
         ];
     }
 }
@@ -104,9 +125,18 @@ function handleWelcome(&$state, $input) {
  * Handle area selection
  */
 function handleAreaSelection(&$state, $input) {
-    if ($input === 'tax_refund' || $input === '1') {
+    // Normalize input
+    $input = strtolower(trim($input));
+    
+    // Check if the input is any variation of tax refund selection
+    $taxRefundKeywords = ['tax_refund', 'taxrefund', 'tax', 'refund', '1', 'check tax', 'tax return'];
+    
+    if (in_array($input, $taxRefundKeywords) || strpos($input, 'tax') !== false || strpos($input, 'refund') !== false) {
         $state['step'] = 'employment_status';
         $state['selected_area'] = 'tax_refund';
+        
+        // Log the state transition
+        error_log("Transitioning to employment_status step");
         
         return [
             'text' => "Great! So I can check, I'll ask a few short questions (answer them briefly - less than a minute). Are you:",
@@ -118,9 +148,10 @@ function handleAreaSelection(&$state, $input) {
         ];
     }
     
-    // For other areas (simplified for this example)
+    // If we get here, the input wasn't recognized
+    error_log("Unrecognized input in handleAreaSelection: " . $input);
     return [
-        'text' => "This area is not yet available. Please select 'Tax refund' for now.",
+        'text' => "I'm not sure which area you're referring to. Please select 'Tax refund' to continue:",
         'buttons' => [
             ['id' => 'tax_refund', 'text' => 'Tax refund']
         ]
@@ -131,27 +162,74 @@ function handleAreaSelection(&$state, $input) {
  * Handle employment status
  */
 function handleEmploymentStatus(&$state, $input) {
-    if ($input === 'self_employed') {
+    // Normalize input
+    $input = strtolower(trim($input));
+    
+    // Log the received input
+    error_log("handleEmploymentStatus received input: " . $input);
+    
+    // Handle self-employed case
+    $selfEmployedKeywords = ['self_employed', 'self-employed', 'self employed', 'self', 'own business'];
+    if (in_array($input, $selfEmployedKeywords) || strpos($input, 'self') !== false) {
         $state['step'] = 'welcome';
+        error_log("User selected self-employed, returning to welcome");
         return [
             'text' => "This service is currently for employees only. Would you like to check other areas?",
             'buttons' => [
-                ['id' => 'yes', 'text' => 'Yes, show me'],
+                ['id' => 'tax_refund', 'text' => 'Check Tax Refund'],
                 ['id' => 'no', 'text' => 'No thanks']
             ]
         ];
     }
     
-    $state['step'] = 'salary_range';
-    $state['employment_status'] = $input;
+    // Handle employed cases (6+ years or part-time)
+    $employed6yrsKeywords = ['employed_6yrs', 'employed 6+ yrs', '6+', '6+ years', 'six plus', 'six+', '6plus', '6 plus'];
+    $employedPartKeywords = ['employed_part', 'employed part', 'part time', 'part-time', 'parttime'];
     
+    if (in_array($input, $employed6yrsKeywords) || 
+        strpos($input, '6') !== false || 
+        strpos($input, 'six') !== false) {
+        
+        $state['step'] = 'salary_range';
+        $state['employment_status'] = 'employed_6yrs';
+        error_log("User selected employed 6+ years, moving to salary range");
+        
+        return [
+            'text' => "What is your average salary in recent years?",
+            'buttons' => [
+                ['id' => 'under_800', 'text' => 'Under 800'],
+                ['id' => '800_2000', 'text' => '800-2,000'],
+                ['id' => '2000_5000', 'text' => '2,000-5,000'],
+                ['id' => '5000_8000', 'text' => '5,000-8,000'],
+                ['id' => 'over_8000', 'text' => '8,000+']
+            ]
+        ];
+    }
+    
+    if (in_array($input, $employedPartKeywords) || strpos($input, 'part') !== false) {
+        $state['step'] = 'salary_range';
+        $state['employment_status'] = 'employed_part';
+        error_log("User selected employed part-time, moving to salary range");
+        
+        return [
+            'text' => "What is your average salary in recent years?",
+            'buttons' => [
+                ['id' => 'under_800', 'text' => 'Under 800'],
+                ['id' => '800_2000', 'text' => '800-2,000'],
+                ['id' => '2000_5000', 'text' => '2,000-5,000'],
+                ['id' => 'over_5000', 'text' => '5,000+']
+            ]
+        ];
+    }
+    
+    // If we get here, the input wasn't recognized
+    error_log("Unrecognized employment status: " . $input);
     return [
-        'text' => "What is your average salary in recent years?",
+        'text' => "I'm not sure I understand. Please select your employment status:",
         'buttons' => [
-            ['id' => 'under_800', 'text' => 'Under 800'],
-            ['id' => '8000_12000', 'text' => '8,000-12,000'],
-            ['id' => '12000_18000', 'text' => '12,000-18,000'],
-            ['id' => 'over_18000', 'text' => '18,000+']
+            ['id' => 'employed_6yrs', 'text' => 'Employed 6+ yrs'],
+            ['id' => 'employed_part', 'text' => 'Employed part'],
+            ['id' => 'self_employed', 'text' => 'Self-employed']
         ]
     ];
 }
@@ -176,7 +254,10 @@ function handleSalaryRange(&$state, $input) {
  * Handle tax criteria response
  */
 function handleTaxCriteria(&$state, $input) {
-    if ($input === 'no') {
+    // Normalize input
+    $input = strtolower(trim($input));
+    
+    if ($input === 'no' || $input === 'no, none') {
         $state['step'] = 'no_savings';
         return [
             'text' => "Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds. Would you like to check another area?",
@@ -187,12 +268,24 @@ function handleTaxCriteria(&$state, $input) {
         ];
     }
     
-    $state['step'] = 'eligibility_check_1';
+    // Handle 'yes' or any other affirmative response
+    if ($input === 'yes' || $input === 'yes, i qualify' || $input === '1') {
+        $state['step'] = 'eligibility_check_1';
+        return [
+            'text' => "Do you have children, academic studies, insurance payments, or grants that could affect your eligibility for a refund?",
+            'buttons' => [
+                ['id' => 'yes', 'text' => 'Yes, I do'],
+                ['id' => 'no', 'text' => 'No, none']
+            ]
+        ];
+    }
+    
+    // If we get here, the input wasn't recognized
     return [
-        'text' => "Do you have children, academic studies, insurance payments, or grants that could affect your eligibility for a refund?",
+        'text' => "I'm not sure how to interpret that. Please select one of the options below:",
         'buttons' => [
-            ['id' => 'yes', 'text' => 'Yes, I do'],
-            ['id' => 'no', 'text' => 'No, none']
+            ['id' => 'yes', 'text' => 'Yes, I qualify'],
+            ['id' => 'no', 'text' => 'No, none apply']
         ]
     ];
 }
