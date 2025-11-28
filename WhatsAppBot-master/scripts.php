@@ -13,20 +13,19 @@
  */
 
 function runScripts(&$from, &$text, array &$state) {
-    // Initialize state if not set
-    if (!isset($state['step'])) {
-        $state = ['step' => 'welcome'];
-    }
-
     $lc = strtolower(trim($text));
     
     // Log the input and current state for debugging
     error_log("Processing input: '$lc' with state: " . json_encode($state));
     
-    // Handle restart command at any point
-    if (in_array($lc, ['restart', 'start over', 'reset', 'hi', 'hello'])) {
-        $state = ['step' => 'welcome'];
-        error_log("Resetting to welcome state");
+    // Handle new conversation or restart
+    if (!isset($state['step']) || in_array($lc, ['hi', 'hello', 'start', 'restart'])) {
+        $state = [
+            'step' => 'welcome',
+            'phone_number' => $from,
+            'start_time' => date('Y-m-d H:i:s')
+        ];
+        error_log("Starting new conversation for $from");
         return getWelcomeMessage();
     }
 
@@ -299,8 +298,8 @@ function handleEligibilityCheck1(&$state, $input) {
     return [
         'text' => "To confirm, you have children, studies, or insurance that could qualify you for additional tax benefits?",
         'buttons' => [
-            ['id' => 'yes', 'text' => 'Yes, confirm'],
-            ['id' => 'no', 'text' => 'No, I was mistaken']
+            ['id' => 'confirm_yes', 'text' => 'Yes, confirm'],
+            ['id' => 'confirm_no', 'text' => 'No, I was mistaken']
         ]
     ];
 }
@@ -309,13 +308,13 @@ function handleEligibilityCheck1(&$state, $input) {
  * Handle second eligibility check
  */
 function handleEligibilityCheck2(&$state, $input) {
-    if ($input === 'no') {
+    if ($input === 'confirm_no' || $input === 'maybe_later') {
         $state['step'] = 'no_savings';
         return [
             'text' => "No problem! If your situation changes, feel free to check again. Would you like to try another area?",
             'buttons' => [
-                ['id' => 'yes', 'text' => 'Other areas'],
-                ['id' => 'no', 'text' => 'Maybe later']
+                ['id' => 'try_other_areas', 'text' => 'Other areas'],
+                ['id' => 'maybe_later', 'text' => 'Maybe later']
             ]
         ];
     }
