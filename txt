@@ -1,0 +1,92 @@
+### 1. Initial Entry Point
+
+Display welcome message: "Hi, I'm Robin Hood - here to help you pay less and get more. Would you like to see where you can save money right now?"
+
+- **User Response Options:**
+    - "Yes" → Proceed to Step 2 (Area Selection)
+    - "No" → Return user to main menu/exit flow
+
+### 2. Area Selection
+
+Display message: "Great, let's get started! For which areas would you like to check how to save?"
+
+- **User selects:** "Tax refund" → Proceed to Step 3 (Employment Status)
+
+### 3. Employment Status Question
+
+Display message: "Great! So I can check, I'll ask a few short questions (answer them briefly - less than a minute). Are you:"
+
+- **Options:**
+    - "I have been employed for the entire last 6 years" → Proceed to Step 4
+    - "I was an employee for part of my life (referring to a period of years)" → Proceed to Step 4
+    - "I am self-employed only" → End flow (not applicable)
+
+### 4. Average Salary Question
+
+Display message: "What is your average salary in recent years?"
+
+- **Options:**
+    - "Less than 800" → Store value, proceed to Step 5
+    - "8,000–12,000" → Store value, proceed to Step 5
+    - "12,000–18,000" → Store value, proceed to Step 5
+    - "More than 18,000" → Store value, proceed to Step 5
+
+### 5. Tax/Financial Criteria Check
+
+Display message: "Does any of the following apply to you?"
+
+- "I pay tax on my salary"
+- "I have a pension/compensation/provident fund/training fund. I have paid tax in the last 6 years"
+- "I have paid capital gains tax in the last 6 years"
+- "I had capital market transactions that caused me a profit/loss in the last 6 years"
+- **Options :**
+    - If **YES** to any → Proceed to Step 6 (Additional Eligibility Check)
+    - If **NO** to all → Proceed to Step 11 (No Savings Potential - Exit Message)
+
+### 6. Additional Eligibility Check (First Level)
+
+Display message: "Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?"
+
+- **Options:**
+    - "Yes" → Proceed to Step 7 (Second Level Additional Check)
+    - "No" → Proceed to Step 11 (No Savings Potential - Exit Message)
+
+### 7. Additional Eligibility Check (Second Level)
+
+Display message: "Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?"
+
+- **Options:**
+    - "Yes" → Proceed to Step 8 (Collect User Information)
+    - "No" → Proceed to Step 11 (No Savings Potential - Exit Message)
+
+### 8. Collect User Information
+
+Sequentially collect the following information:
+
+1. **Full Name:** Text input field
+2. **Phone Number:** Text/numeric input field
+3. **ID Number:** Text/numeric input field
+
+After collecting all information → Proceed to Step 9
+
+### 9. Savings Potential Assessment
+
+Display message: "It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?"
+
+- **Options:**
+    - "Yes, check for me" → Proceed to Step 10 (Confirmation Message)
+    - "Take me back to the main menu to continue saving!" → Return to Step 2 (Area Selection)
+
+### 10. Confirmation and Follow-up
+
+Display message: "Thank you for choosing Robin Hood 🏹 We will update you as soon as we find savings! Shall we continue to save in other areas?"
+
+- **Option:**
+    - "Take me back to the main menu to continue saving!" → Return to Step 2 (Area Selection)
+
+### 11. No Savings Potential - Exit Message
+
+Display message: "Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?"
+
+- **Option:**
+    - "Take me back to the main menu to continue saving!" → Return to 
