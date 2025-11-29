@@ -39,34 +39,38 @@ function getCurrentStepMessage($step, $state = []) {
     switch ($step) {
         case 'welcome':
             return [
-                'text' => "Hi, I'm Robin Hood - here to help you pay less and get more. Would you like to see where you can save money right now?",
+                'text' => "היי, אני רובין הוד- כאן בשביל לעזור לך לשלם פחות ולקבל יותר.
+תרצה שנבדוק יחד איפה אפשר לחסוך כסף כבר עכשיו?",//"Hi, I'm Robin Hood - here to help you pay less and get more. Would you like to see where you can save money right now?",
                 'buttons' => [
-                    ['id' => 'yes', 'text' => 'Yes'],
-                    ['id' => 'no', 'text' => 'No']
+                    ['id' => 'yes', 'text' => 'כן'],
+                    ['id' => 'no', 'text' => 'לא']
                 ]
             ];
             
         case 'area_selection':
             return [
-                'text' => "Great, let's get started! For which areas would you like to check how to save?",
+                'text' => "תמיד רציתם לחסוך אבל לא ידעתם איפה להתחיל?  אנחנו פה בשבילכם!
+אנחנו מערכת לבדיקה אוטמטית וחינמית לזכאות הנחות והצעות שעוזרות לכם לחסוך בהרבה- ריביות, החזרי מס ואפילו חשבונות, שנתחיל?
+",//"Great, let's get started! For which areas would you like to check how to save?",
                 'buttons' => [
-                    ['id' => 'tax_refund', 'text' => 'Tax refund']
+                    ['id' => 'tax_refund', 'text' => 'החזר מס']
                 ]
             ];
             
         case 'employment_status':
             return [
-                'text' => "Great! So I can check, I'll ask a few short questions (answer them briefly - less than a minute). Are you:\n\n1. I have been employed for the entire last 6 years\n2. I was an employee for part of my life (referring to a period of years)\n3. I am self-employed only",
+                'text' => "מעולה! כדי שאוכל לבדוק, אשאל כמה שאלות קצרות (הענה עליהם קצר- פחות מדקה).
+האם אתה:",//"Great! So I can check, I'll ask a few short questions (answer them briefly - less than a minute). Are you:\n\n1. I have been employed for the entire last 6 years\n2. I was an employee for part of my life (referring to a period of years)\n3. I am self-employed only",
                 'buttons' => [
-                    ['id' => 'employed_6yrs', 'text' => 'Employed 6 Years'],
-                    ['id' => 'employed_part', 'text' => 'Partially Employed'],
-                    ['id' => 'self_employed', 'text' => 'Self-Employed Only']
+                    ['id' => 'employed_6yrs', 'text' => 'אני שכיר בכל תקופת ה- 6 השנים האחרונות'],
+                    ['id' => 'employed_part', 'text' => 'הייתי בחלק מחיי שכיר '],
+                    ['id' => 'self_employed', 'text' => 'אני עצמאי בלבד']
                 ]
             ];
             
         case 'salary_range':
             return [
-                'text' => "What is your average salary in recent years?",
+                'text' => "מה גובה השכר הממוצע שלך בשנים האחרונות?",//"What is your average salary in recent years?",
                 'buttons' => [
                     ['id' => 'less_than_8000', 'text' => '<8000'],
                     ['id' => '8000_18000', 'text' => '8000-18000'],
@@ -76,19 +80,20 @@ function getCurrentStepMessage($step, $state = []) {
             
         case 'tax_criteria':
             return [
-                'text' => "Does any of the following apply to you?\n\n• I pay tax on my salary\n• I have a pension/compensation/provident fund/training fund. I have paid tax in the last 6 years\n• I have paid capital gains tax in the last 6 years\n• I had capital market transactions that caused me a profit/loss in the last 6 years",
+                'text' => "האם אחד מהסעיפים הבאים תקפים אלייך?\n\n• אני משלם מס מהשכר שלך\n• אני בעל פידיון פנסיה/פיצויים/קופות גמל/קרן השתלמות שילמתי מס ב- 6 שנים אחרונות\n•  שילמתי מס שבח ב6 שנים אחרונות\n• היו לי פעולות בשוק ההון שגרמו לי לרווח/הפסד ב- 6 שנים אחרונות",
                 'buttons' => [
-                    ['id' => 'yes', 'text' => 'Yes'],
-                    ['id' => 'no', 'text' => 'No']
+                    ['id' => 'yes', 'text' => 'כן '],
+                    ['id' => 'no', 'text' => 'לא ']
                 ]
             ];
             
         case 'eligibility_check_1':
             return [
-                'text' => "Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?",
+                'text' => "האם יש לך ילדים, לימודים אקדמיים, תשלומים לביטוחים או מענקים שקיבלת שיכולים להשפיע על זכאות להחזר?
+",//"Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?",
                 'buttons' => [
-                    ['id' => 'yes', 'text' => 'Yes'],
-                    ['id' => 'no', 'text' => 'No']
+                    ['id' => 'yes', 'text' => 'כן'],
+                    ['id' => 'no', 'text' => 'לא']
                 ]
             ];
             
@@ -96,56 +101,61 @@ function getCurrentStepMessage($step, $state = []) {
             // Note: The flow text file has this as a duplicate of check 1, but the original code used different questions.
             // Sticking to the flow text file's question for consistency, but the logic is to confirm eligibility.
             return [
-                'text' => "Just one more check: Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?",
+                'text' => " האם ביצעת החזר מס ב6 שנים האחרונות",//"Just one more check: Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?",
                 'buttons' => [
-                    ['id' => 'yes', 'text' => 'Yes'],
-                    ['id' => 'no', 'text' => 'No']
+                    ['id' => 'yes', 'text' => 'כן'],
+                    ['id' => 'no', 'text' => 'לא']
                 ]
             ];
             
         case 'collect_info_name':
             return [
-                'text' => "Please provide your Full Name:"
+                'text' => "מה שמך המלא?"
             ];
             
         case 'collect_info_phone':
             return [
-                'text' => "Please provide your Phone Number:"
+                'text' => "מה מספר הטלפון שלך?"
             ];
             
         case 'collect_info_id':
             return [
-                'text' => "Please provide your ID Number:"
+                'text' => "מה תעודת הזהות שלך?"
             ];
             
         case 'savings_potential':
             return [
-                'text' => "It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
+                'text' => "נראה שיש לך פוטנציאל לחיסכון של כמה מאות שקלים בחודש",//"It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
                 'buttons' => [
-                    ['id' => 'yes_check', 'text' => 'Yes, check for me'],
-                    ['id' => 'main_menu', 'text' => 'Back to Main Menu']
+                    ['id' => 'yes_check', 'text' => 'כן, תבדקו לי'],
+                    ['id' => 'main_menu', 'text' => ' קח אותי בחזרה לתפריט הראשי כדי להמשיך לחסוך!']
                 ]
             ];
             
         case 'confirmation':
             return [
-                'text' => "Thank you for choosing Robin Hood 🏹 We will update you as soon as we find savings! Shall we continue to save in other areas?",
+                'text' => "תודה שבחרת ברובין הוד 🏹
+אנחנו נעדכן אותך ברגע שיימצא חיסכון!
+שנמשיך לחסוך בעוד תחומים?",//"Thank you for choosing Robin Hood 🏹 We will update you as soon as we find savings! Shall we continue to save in other areas?",
                 'buttons' => [
-                    ['id' => 'main_menu', 'text' => 'Back to Main Menu']
+                    ['id' => 'main_menu', 'text' => ' קח אותי בחזרה לתפריט הראשי כדי להמשיך לחסוך!']
                 ]
             ];
             
         case 'no_savings':
             return [
-                'text' => "Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?",
+                'text' => "תודה שבחרת ברובין הוד 🏹
+אנחנו נעדכן אותך ברגע שיימצא חיסכון!
+שנמשיך לחסוך בעוד תחומים?",//"Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?",
                 'buttons' => [
-                    ['id' => 'main_menu', 'text' => 'Back to Main Menu']
+                    ['id' => 'main_menu', 'text' => ' קח אותי בחזרה לתפריט הראשי כדי להמשיך לחסוך!']
                 ]
             ];
             
         default:
             return [
-                'text' => "I'm sorry, I encountered an error. Please send 'start' to begin again.",
+                'text' => "מצטער, נתקלתי בשגיאה. אנא שלח 'start' כדי להתחיל מחדש.
+ ",//"I'm sorry, I encountered an error. Please send 'start' to begin again.",
                 'end_conversation' => true
             ];
     }

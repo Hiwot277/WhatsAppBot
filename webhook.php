@@ -96,23 +96,44 @@ if ($messageId && isset($processedMessages[$messageId])) {
 
 // Add to processed messages and save to file
 if ($messageId) {
-    $processedMessages[$messageId] = time();
-    
-    // Clean up old messages (older than 1 hour)
-    $oneHourAgo = time() - 3600;
-    foreach ($processedMessages as $id => $timestamp) {
-        if ($timestamp < $oneHourAgo) {
-            unset($processedMessages[$id]);
+    $fp = fopen($processedMessagesFile, 'c+');
+    if (flock($fp, LOCK_EX)) {
+        // Reload to get latest changes
+        $fileContent = stream_get_contents($fp);
+        $processedMessages = $fileContent ? json_decode($fileContent, true) : [];
+        
+        if (isset($processedMessages[$messageId])) {
+            // Already processed by another process while we were waiting for lock
+            flock($fp, LOCK_UN);
+            fclose($fp);
+            logit("Duplicate message detected (race condition), ignoring: $messageId");
+            http_response_code(200);
+            echo 'EVENT_RECEIVED';
+            exit;
         }
+        
+        $processedMessages[$messageId] = time();
+        
+        // Clean up old messages (older than 1 hour)
+        $oneHourAgo = time() - 3600;
+        foreach ($processedMessages as $id => $timestamp) {
+            if ($timestamp < $oneHourAgo) {
+                unset($processedMessages[$id]);
+            }
+        }
+        
+        // Keep only the last 1000 message IDs
+        if (count($processedMessages) > 1000) {
+            $processedMessages = array_slice($processedMessages, -1000, null, true);
+        }
+        
+        ftruncate($fp, 0);
+        rewind($fp);
+        fwrite($fp, json_encode($processedMessages));
+        fflush($fp);
+        flock($fp, LOCK_UN);
     }
-    
-    // Keep only the last 1000 message IDs to prevent file from growing too large
-    if (count($processedMessages) > 1000) {
-        $processedMessages = array_slice($processedMessages, -1000, null, true);
-    }
-    
-    // Save to file
-    file_put_contents($processedMessagesFile, json_encode($processedMessages));
+    fclose($fp);
 }
 
 if (isset($data['entry'][0]['changes'][0]['value']['messages'][0])) {
