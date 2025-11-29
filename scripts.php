@@ -13,20 +13,19 @@
  */
 
 function runScripts(&$from, &$text, array &$state) {
-    // Initialize state if not set
-    if (!isset($state['step'])) {
-        $state = ['step' => 'welcome'];
-    }
-
     $lc = strtolower(trim($text));
     
     // Log the input and current state for debugging
     error_log("Processing input: '$lc' with state: " . json_encode($state));
     
-    // Handle restart command at any point
-    if (in_array($lc, ['restart', 'start over', 'reset', 'hi', 'hello'])) {
-        $state = ['step' => 'welcome'];
-        error_log("Resetting to welcome state");
+    // Handle new conversation or restart
+    if (!isset($state['step']) || in_array($lc, ['hi', 'hello', 'start', 'restart'])) {
+        $state = [
+            'step' => 'welcome',
+            'phone_number' => $from,
+            'start_time' => date('Y-m-d H:i:s')
+        ];
+        error_log("Starting new conversation for $from");
         return getWelcomeMessage();
     }
 
@@ -168,68 +167,40 @@ function handleEmploymentStatus(&$state, $input) {
     // Log the received input
     error_log("handleEmploymentStatus received input: " . $input);
     
-    // Handle self-employed case
+    // Define all possible employment status keywords
     $selfEmployedKeywords = ['self_employed', 'self-employed', 'self employed', 'self', 'own business'];
-    if (in_array($input, $selfEmployedKeywords) || strpos($input, 'self') !== false) {
-        $state['step'] = 'welcome';
-        error_log("User selected self-employed, returning to welcome");
-        return [
-            'text' => "This service is currently for employees only. Would you like to check other areas?",
-            'buttons' => [
-                ['id' => 'tax_refund', 'text' => 'Check Tax Refund'],
-                ['id' => 'no', 'text' => 'No thanks']
-            ]
-        ];
-    }
-    
-    // Handle employed cases (6+ years or part-time)
     $employed6yrsKeywords = ['employed_6yrs', 'employed 6+ yrs', '6+', '6+ years', 'six plus', 'six+', '6plus', '6 plus'];
     $employedPartKeywords = ['employed_part', 'employed part', 'part time', 'part-time', 'parttime'];
     
-    if (in_array($input, $employed6yrsKeywords) || 
-        strpos($input, '6') !== false || 
-        strpos($input, 'six') !== false) {
-        
-        $state['step'] = 'salary_range';
+    // Determine which employment status was selected
+    if (in_array($input, $selfEmployedKeywords) || strpos($input, 'self') !== false) {
+        $state['employment_status'] = 'self_employed';
+        error_log("User selected self-employed, moving to salary range");
+    } 
+    elseif (in_array($input, $employed6yrsKeywords) || strpos($input, '6') !== false || strpos($input, 'six') !== false) {
         $state['employment_status'] = 'employed_6yrs';
         error_log("User selected employed 6+ years, moving to salary range");
-        
-        return [
-            'text' => "What is your average salary in recent years?",
-            'buttons' => [
-                ['id' => 'under_800', 'text' => 'Under 800'],
-                ['id' => '800_2000', 'text' => '800-2,000'],
-                ['id' => '2000_5000', 'text' => '2,000-5,000'],
-                ['id' => '5000_8000', 'text' => '5,000-8,000'],
-                ['id' => 'over_8000', 'text' => '8,000+']
-            ]
-        ];
     }
-    
-    if (in_array($input, $employedPartKeywords) || strpos($input, 'part') !== false) {
-        $state['step'] = 'salary_range';
+    elseif (in_array($input, $employedPartKeywords) || strpos($input, 'part') !== false) {
         $state['employment_status'] = 'employed_part';
         error_log("User selected employed part-time, moving to salary range");
-        
-        return [
-            'text' => "What is your average salary in recent years?",
-            'buttons' => [
-                ['id' => 'under_800', 'text' => 'Under 800'],
-                ['id' => '800_2000', 'text' => '800-2,000'],
-                ['id' => '2000_5000', 'text' => '2,000-5,000'],
-                ['id' => 'over_5000', 'text' => '5,000+']
-            ]
-        ];
+    }
+    else {
+        // If we get here, the input wasn't recognized
+        error_log("Unrecognized employment status: " . $input);
+        $state['employment_status'] = 'unknown';
+        error_log("User selected unknown employment status, moving to salary range");
     }
     
-    // If we get here, the input wasn't recognized
-    error_log("Unrecognized employment status: " . $input);
+    // All valid employment statuses proceed to salary range
+    $state['step'] = 'salary_range';
+    
     return [
-        'text' => "I'm not sure I understand. Please select your employment status:",
+        'text' => "What is your average salary in recent years?",
         'buttons' => [
-            ['id' => 'employed_6yrs', 'text' => 'Employed 6+ yrs'],
-            ['id' => 'employed_part', 'text' => 'Employed part'],
-            ['id' => 'self_employed', 'text' => 'Self-employed']
+            ['id' => 'under_8000', 'text' => 'Under 8,000'],
+            ['id' => '8000_18000', 'text' => '8,000 - 18,000'],
+            ['id' => 'over_18000', 'text' => 'Over 18,000']
         ]
     ];
 }
@@ -238,14 +209,33 @@ function handleEmploymentStatus(&$state, $input) {
  * Handle salary range selection
  */
 function handleSalaryRange(&$state, $input) {
-    $state['step'] = 'tax_criteria';
-    $state['salary_range'] = $input;
+    // Normalize input
+    $input = strtolower(trim($input));
     
+    // Define valid salary ranges
+    $validRanges = ['under_8000', '8000_18000', 'over_18000'];
+    
+    // Check if input is a valid range ID
+    if (in_array($input, $validRanges)) {
+        $state['step'] = 'tax_criteria';
+        $state['salary_range'] = $input;
+        
+        return [
+            'text' => "Does any of the following apply to you?\n\n• I pay tax on my salary\n• I have a pension/compensation/provident fund/training fund\n• I have paid capital gains tax in the last 6 years\n• I had capital market transactions with profit/loss",
+            'buttons' => [
+                ['id' => 'yes', 'text' => 'Yes, I qualify'],
+                ['id' => 'no', 'text' => 'No, none apply']
+            ]
+        ];
+    }
+    
+    // If input is not a valid range, show the salary range question again
     return [
-        'text' => "Does any of the following apply to you?\n\n• I pay tax on my salary\n• I have a pension/compensation/provident fund/training fund\n• I have paid capital gains tax in the last 6 years\n• I had capital market transactions with profit/loss",
+        'text' => "Please select your salary range:",
         'buttons' => [
-            ['id' => 'yes', 'text' => 'Yes, I qualify'],
-            ['id' => 'no', 'text' => 'No, none apply']
+            ['id' => 'under_8000', 'text' => 'Under 8,000'],
+            ['id' => '8000_18000', 'text' => '8,000 - 18,000'],
+            ['id' => 'over_18000', 'text' => 'Over 18,000']
         ]
     ];
 }
@@ -308,8 +298,8 @@ function handleEligibilityCheck1(&$state, $input) {
     return [
         'text' => "To confirm, you have children, studies, or insurance that could qualify you for additional tax benefits?",
         'buttons' => [
-            ['id' => 'yes', 'text' => 'Yes, confirm'],
-            ['id' => 'no', 'text' => 'No, I was mistaken']
+            ['id' => 'confirm_yes', 'text' => 'Yes, confirm'],
+            ['id' => 'confirm_no', 'text' => 'No, I was mistaken']
         ]
     ];
 }
@@ -318,13 +308,13 @@ function handleEligibilityCheck1(&$state, $input) {
  * Handle second eligibility check
  */
 function handleEligibilityCheck2(&$state, $input) {
-    if ($input === 'no') {
+    if ($input === 'confirm_no' || $input === 'maybe_later') {
         $state['step'] = 'no_savings';
         return [
             'text' => "No problem! If your situation changes, feel free to check again. Would you like to try another area?",
             'buttons' => [
-                ['id' => 'yes', 'text' => 'Other areas'],
-                ['id' => 'no', 'text' => 'Maybe later']
+                ['id' => 'try_other_areas', 'text' => 'Other areas'],
+                ['id' => 'maybe_later', 'text' => 'Maybe later']
             ]
         ];
     }
