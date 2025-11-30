@@ -60,11 +60,14 @@ function getCurrentStepMessage($step, $state = []) {
         case 'employment_status':
             return [
                 'text' => "מעולה! כדי שאוכל לבדוק, אשאל כמה שאלות קצרות (הענה עליהם קצר- פחות מדקה).
-האם אתה:",//"Great! So I can check, I'll ask a few short questions (answer them briefly - less than a minute). Are you:\n\n1. I have been employed for the entire last 6 years\n2. I was an employee for part of my life (referring to a period of years)\n3. I am self-employed only",
+האם אתה:
+1. שכיר בכל תקופת ה- 6 השנים האחרונות
+2. הייתי בחלק מחיי שכיר
+3. עצמאי בלבד",
                 'buttons' => [
-                    ['id' => 'employed_6yrs', 'text' => 'אני שכיר בכל תקופת ה- 6 השנים האחרונות'],
-                    ['id' => 'employed_part', 'text' => 'הייתי בחלק מחיי שכיר '],
-                    ['id' => 'self_employed', 'text' => 'אני עצמאי בלבד']
+                    ['id' => 'employed_6yrs', 'text' => 'שכיר 6 שנים'],
+                    ['id' => 'employed_part', 'text' => 'שכיר בחלק מהזמן'],
+                    ['id' => 'self_employed', 'text' => 'עצמאי בלבד']
                 ]
             ];
             
@@ -125,10 +128,10 @@ function getCurrentStepMessage($step, $state = []) {
             
         case 'savings_potential':
             return [
-                'text' => "נראה שיש לך פוטנציאל לחיסכון של כמה מאות שקלים בחודש",//"It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
+                'text' => "נראה שיש לך פוטנציאל לחיסכון של כמה מאות שקלים בחודש",
                 'buttons' => [
                     ['id' => 'yes_check', 'text' => 'כן, תבדקו לי'],
-                    ['id' => 'main_menu', 'text' => ' קח אותי בחזרה לתפריט הראשי כדי להמשיך לחסוך!']
+                    ['id' => 'main_menu', 'text' => 'לתפריט הראשי']
                 ]
             ];
             
@@ -136,9 +139,9 @@ function getCurrentStepMessage($step, $state = []) {
             return [
                 'text' => "תודה שבחרת ברובין הוד 🏹
 אנחנו נעדכן אותך ברגע שיימצא חיסכון!
-שנמשיך לחסוך בעוד תחומים?",//"Thank you for choosing Robin Hood 🏹 We will update you as soon as we find savings! Shall we continue to save in other areas?",
+שנמשיך לחסוך בעוד תחומים?",
                 'buttons' => [
-                    ['id' => 'main_menu', 'text' => ' קח אותי בחזרה לתפריט הראשי כדי להמשיך לחסוך!']
+                    ['id' => 'main_menu', 'text' => 'לתפריט הראשי']
                 ]
             ];
             
@@ -146,9 +149,9 @@ function getCurrentStepMessage($step, $state = []) {
             return [
                 'text' => "תודה שבחרת ברובין הוד 🏹
 אנחנו נעדכן אותך ברגע שיימצא חיסכון!
-שנמשיך לחסוך בעוד תחומים?",//"Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?",
+שנמשיך לחסוך בעוד תחומים?",
                 'buttons' => [
-                    ['id' => 'main_menu', 'text' => ' קח אותי בחזרה לתפריט הראשי כדי להמשיך לחסוך!']
+                    ['id' => 'main_menu', 'text' => 'לתפריט הראשי']
                 ]
             ];
             

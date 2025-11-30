@@ -147,6 +147,9 @@ if (isset($data['entry'][0]['changes'][0]['value']['messages'][0])) {
     } elseif ($msgType === 'interactive' && isset($msg['interactive']['button_reply']['id'])) {
         // Handle button clicks
         $text = $msg['interactive']['button_reply']['id'];
+    } elseif ($msgType === 'interactive' && isset($msg['interactive']['list_reply']['id'])) {
+        // Handle list selection
+        $text = $msg['interactive']['list_reply']['id'];
     } else {
         $text = '';
     }
