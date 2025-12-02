@@ -3,12 +3,12 @@
 Display welcome message: "Hi, I'm Robin Hood - here to help you pay less and get more. Would you like to see where you can save money right now?"
 
 - **User Response Options:**
-    - "Yes" → Proceed to Step 2 (Area Selection)
-    - "No" → Return user to main menu/exit flow
+    - "tell me how it works" → Proceed to Step 2 (Area Selection)
+    
 
 ### 2. Area Selection
 
-Display message: "Great, let's get started! For which areas would you like to check how to save?"
+Display message: "Have you always wanted to save money but didn't know where to start? We're here for you! We are a free, automatic system for checking eligibility for discounts and offers that help you save a lot - on interest, tax refunds and even bills, where to start?"
 
 - **User selects:** "Tax refund" → Proceed to Step 3 (Employment Status)
 
@@ -16,19 +16,24 @@ Display message: "Great, let's get started! For which areas would you like to ch
 
 Display message: "Great! So I can check, I'll ask a few short questions (answer them briefly - less than a minute). Are you:"
 
+1 ."I have been employed for the entire last 6 years" 
+
+2 . "I was an employee for part of my life (referring to a period of years)"
+
+1. "I am self-employed only" 
+
 - **Options:**
-    - "I have been employed for the entire last 6 years" → Proceed to Step 4
-    - "I was an employee for part of my life (referring to a period of years)" → Proceed to Step 4
-    - "I am self-employed only" → End flow (not applicable)
+- 1 → Proceed to Step 4
+- 2 → Proceed to Step 4
+- 3 → Proceed to Step 11
 
 ### 4. Average Salary Question
 
 Display message: "What is your average salary in recent years?"
 
 - **Options:**
-    - "Less than 800" → Store value, proceed to Step 5
-    - "8,000–12,000" → Store value, proceed to Step 5
-    - "12,000–18,000" → Store value, proceed to Step 5
+    - "Less than 8,000" → Store value, proceed to Step 5
+    - "8,000–18,000" → Store value, proceed to Step 5
     - "More than 18,000" → Store value, proceed to Step 5
 
 ### 5. Tax/Financial Criteria Check
@@ -49,7 +54,7 @@ Display message: "Do you have children, academic studies, insurance payments, or
 
 - **Options:**
     - "Yes" → Proceed to Step 7 (Second Level Additional Check)
-    - "No" → Proceed to Step 11 (No Savings Potential - Exit Message)
+    - "No" → Proceed to Step 7
 
 ### 7. Additional Eligibility Check (Second Level)
 
@@ -57,7 +62,7 @@ Display message: "Do you have children, academic studies, insurance payments, or
 
 - **Options:**
     - "Yes" → Proceed to Step 8 (Collect User Information)
-    - "No" → Proceed to Step 11 (No Savings Potential - Exit Message)
+    - "No" → Proceed to Step 8
 
 ### 8. Collect User Information
 
@@ -74,8 +79,20 @@ After collecting all information → Proceed to Step 9
 Display message: "It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?"
 
 - **Options:**
-    - "Yes, check for me" → Proceed to Step 10 (Confirmation Message)
+    - "Yes, check for me" → **Send Tax Refund Template Message (NEW)** → Then Step 10
     - "Take me back to the main menu to continue saving!" → Return to Step 2 (Area Selection)
+    
+    ### **➡️ NEW MESSAGE (After ‘Yes, check for me’ is clicked)**
+    
+    After the user clicks **“Yes, check for me”**, send this message BEFORE Step 10:
+    
+    **“Here is a quick example of how a tax refund works:
+    If you worked during the last 6 years and paid more tax than required, the state may owe you money back.
+    Refunds can come from: employment gaps, studies, children, pension deposits, capital market activity, and many other factors.
+    We’ll now check your case in detail and update you with the amount you deserve.”**
+    
+    Then automatically proceed to Step 10.
+    
 
 ### 10. Confirmation and Follow-up
 
@@ -89,4 +106,4 @@ Display message: "Thank you for choosing Robin Hood 🏹 We will update you as s
 Display message: "Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?"
 
 - **Option:**
-    - "Take me back to the main menu to continue saving!" → Return to 
+    - "Take me back to the main menu to continue saving!" → Return to Step 2 (Area Selection)

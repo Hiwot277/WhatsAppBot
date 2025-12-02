@@ -1,0 +1,100 @@
+﻿            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15556164705",
+                            "phone_number_id": "931811476671891"
+                        },
+                        "statuses": [
+                            {
+                                "id": "wamid.HBgMMjUxOTgyNjIyNTg0FQIAERgSQTZEQjM5RUFCN0E1QkJFMkFDAA==",
+                                "status": "sent",
+                                "timestamp": "1764592692",
+                                "recipient_id": "251982622584",
+                                "pricing": {
+                                    "billable": false,
+                                    "pricing_model": "PMP",
+                                    "category": "service",
+                                    "type": "free_customer_service"
+                                }
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}
+[2025-12-01 13:38:08] [unknown] No message object in payload
+[2025-12-01 13:38:08] [unknown] Incoming webhook data (v2): {
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "1045071264380567",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15556164705",
+                            "phone_number_id": "931811476671891"
+                        },
+                        "statuses": [
+                            {
+                                "id": "wamid.HBgMMjUxOTgyNjIyNTg0FQIAERgSQTZEQjM5RUFCN0E1QkJFMkFDAA==",
+                                "status": "delivered",
+                                "timestamp": "1764592692",
+                                "recipient_id": "251982622584",
+                                "pricing": {
+                                    "billable": false,
+                                    "pricing_model": "PMP",
+                                    "category": "service",
+                                    "type": "free_customer_service"
+                                }
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}
+[2025-12-01 13:38:08] [unknown] No message object in payload
+[2025-12-01 13:38:08] [unknown] Incoming webhook data (v2): {
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "1045071264380567",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15556164705",
+                            "phone_number_id": "931811476671891"
+                        },
+                        "statuses": [
+                            {
+                                "id": "wamid.HBgMMjUxOTgyNjIyNTg0FQIAERgSQTZEQjM5RUFCN0E1QkJFMkFDAA==",
+                                "status": "delivered",
+                                "timestamp": "1764592692",
+                                "recipient_id": "251982622584",
+                                "pricing": {
+                                    "billable": false,
+                                    "pricing_model": "PMP",
+                                    "category": "service",
+                                    "type": "free_customer_service"
+                                }
+                            }
+                        ]
+                    },
+                    "field": "messages"
+                }
+            ]
+        }
+    ]
+}
+[2025-12-01 13:38:08] [unknown] No message object in payload

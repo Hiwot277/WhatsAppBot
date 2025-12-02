@@ -5,6 +5,9 @@ define('DB_USERNAME', 'root');  // Database username
 define('DB_PASSWORD', '');  // Database password
 define('DB_NAME', 'whatsapp_bot');
 
+// Google Sheets Webhook URL
+define('GOOGLE_SHEETS_WEBHOOK_URL', 'https://script.google.com/macros/s/AKfycbzR3t3v2ISVnzDRJvgmO9UuYVz7-BJqi-O9HmSY7losE9dr6aFoR2abu5t9dZgu-74/exec');
+
 // Enable detailed error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

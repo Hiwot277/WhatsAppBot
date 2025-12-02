@@ -47,6 +47,13 @@ function saveUserResponse($phoneNumber, $field, $value) {
                 eligibility_check_1 VARCHAR(10),
                 eligibility_check_2 VARCHAR(10),
                 savings_potential VARCHAR(10),
+                phone_num_2 VARCHAR(50),
+                id_number VARCHAR(50),
+                welcome_response VARCHAR(50),
+                selected_area VARCHAR(50),
+                savings_potential_response VARCHAR(50),
+                confirmation_response VARCHAR(50),
+                no_savings_response VARCHAR(50),
                 conversation_start TIMESTAMP NULL,
                 conversation_end TIMESTAMP NULL,
                 conversation_complete BOOLEAN DEFAULT 0,
@@ -114,6 +121,10 @@ function saveUserResponse($phoneNumber, $field, $value) {
 
         error_log("Updated users_responses - ID: $id, Field: $field, Value: $value");
         $conn->close();
+        
+        // Send to Google Sheets
+        sendToGoogleSheet($phoneNumber, $field, $value);
+        
         return $id;
     } else {
         // No row yet for this phone_number
@@ -130,6 +141,12 @@ function saveUserResponse($phoneNumber, $field, $value) {
             $id = $conn->insert_id;
             error_log("Created new record for $phoneNumber (ID: $id)");
             $conn->close();
+            
+            // Send to Google Sheets
+            // We need to fetch the full name if it wasn't passed directly (optimization: pass it if known)
+            // For now, we'll just send what we have. The GAS script can handle partial updates.
+            sendToGoogleSheet($phoneNumber, $field, $value);
+            
             return $id;
         } else {
             error_log("Error creating new record: " . $conn->error);
@@ -138,6 +155,58 @@ function saveUserResponse($phoneNumber, $field, $value) {
             return false;
         }
     }
+}
+
+/**
+ * Send data to Google Sheets via Webhook (Blocking with Timeout)
+ * 
+ * @param string $phoneNumber
+ * @param string $field
+ * @param string $value
+ * @return void
+ */
+function sendToGoogleSheet($phoneNumber, $field, $value) {
+    if (!defined('GOOGLE_SHEETS_WEBHOOK_URL') || empty(GOOGLE_SHEETS_WEBHOOK_URL)) {
+        return;
+    }
+
+    $url = GOOGLE_SHEETS_WEBHOOK_URL;
+    
+    // Prepare data
+    $data = [
+        'phone' => $phoneNumber,
+        'field' => $field,
+        'value' => $value,
+        'timestamp' => date('Y-m-d H:i:s')
+    ];
+    
+    // Setup cURL
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json'
+    ]);
+    
+    // Follow redirects is CRITICAL for Google Scripts
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); 
+    
+    // Timeout: 3 seconds. 
+    // This ensures we wait for the save, but don't hang forever if Google is slow.
+    curl_setopt($ch, CURLOPT_TIMEOUT, 3); 
+    
+    // Execute
+    $result = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    
+    if (curl_errno($ch)) {
+        error_log("[Google Sheets] Error: " . curl_error($ch));
+    } else {
+        error_log("[Google Sheets] Sent data. HTTP Code: $httpCode.");
+    }
+    
+    curl_close($ch);
 }
 
 /**

@@ -83,7 +83,7 @@ if (!$body) {
 }
 
 $data = json_decode($body, true);
-logit("Incoming webhook data:", $data);
+logit("Incoming webhook data (v2):", $data);
 
 // Check if this is a message we've already processed
 $messageId = $data['entry'][0]['changes'][0]['value']['messages'][0]['id'] ?? null;
@@ -96,29 +96,59 @@ if ($messageId && isset($processedMessages[$messageId])) {
 
 // Add to processed messages and save to file
 if ($messageId) {
-    $processedMessages[$messageId] = time();
-    
-    // Clean up old messages (older than 1 hour)
-    $oneHourAgo = time() - 3600;
-    foreach ($processedMessages as $id => $timestamp) {
-        if ($timestamp < $oneHourAgo) {
-            unset($processedMessages[$id]);
+    $fp = fopen($processedMessagesFile, 'c+');
+    if (flock($fp, LOCK_EX)) {
+        // Reload to get latest changes
+        $fileContent = stream_get_contents($fp);
+        $processedMessages = $fileContent ? json_decode($fileContent, true) : [];
+        
+        if (isset($processedMessages[$messageId])) {
+            // Already processed by another process while we were waiting for lock
+            flock($fp, LOCK_UN);
+            fclose($fp);
+            logit("Duplicate message detected (race condition), ignoring: $messageId");
+            http_response_code(200);
+            echo 'EVENT_RECEIVED';
+            exit;
         }
+        
+        $processedMessages[$messageId] = time();
+        
+        // Clean up old messages (older than 1 hour)
+        $oneHourAgo = time() - 3600;
+        foreach ($processedMessages as $id => $timestamp) {
+            if ($timestamp < $oneHourAgo) {
+                unset($processedMessages[$id]);
+            }
+        }
+        
+        // Keep only the last 1000 message IDs
+        if (count($processedMessages) > 1000) {
+            $processedMessages = array_slice($processedMessages, -1000, null, true);
+        }
+        
+        ftruncate($fp, 0);
+        rewind($fp);
+        fwrite($fp, json_encode($processedMessages));
+        fflush($fp);
+        flock($fp, LOCK_UN);
     }
-    
-    // Keep only the last 1000 message IDs to prevent file from growing too large
-    if (count($processedMessages) > 1000) {
-        $processedMessages = array_slice($processedMessages, -1000, null, true);
-    }
-    
-    // Save to file
-    file_put_contents($processedMessagesFile, json_encode($processedMessages));
+    fclose($fp);
 }
 
 if (isset($data['entry'][0]['changes'][0]['value']['messages'][0])) {
     $msg = $data['entry'][0]['changes'][0]['value']['messages'][0];
     $from = $msg['from'] ?? 'unknown';
     $msgType = $msg['type'] ?? 'unknown';
+    $timestamp = $msg['timestamp'] ?? time();
+
+    // Check if message is older than 5 minutes (300 seconds)
+    if (time() - $timestamp > 300) {
+        logit("Ignoring old message from $from (Timestamp: $timestamp, Age: " . (time() - $timestamp) . "s)");
+        http_response_code(200);
+        echo 'EVENT_RECEIVED';
+        exit;
+    }
     
     // Handle different message types
     if ($msgType === 'text') {
@@ -126,6 +156,9 @@ if (isset($data['entry'][0]['changes'][0]['value']['messages'][0])) {
     } elseif ($msgType === 'interactive' && isset($msg['interactive']['button_reply']['id'])) {
         // Handle button clicks
         $text = $msg['interactive']['button_reply']['id'];
+    } elseif ($msgType === 'interactive' && isset($msg['interactive']['list_reply']['id'])) {
+        // Handle list selection
+        $text = $msg['interactive']['list_reply']['id'];
     } else {
         $text = '';
     }

@@ -37,7 +37,7 @@ function processMessage($from, $text, $messageId = null) {
     }
     
     // Check if this is a new conversation or a restart trigger
-    $isRestartTrigger = in_array(strtolower($text), ['hey', 'hi', 'start', 'restart']);
+    $isRestartTrigger = in_array(strtolower($text), ['hey', 'hi', 'start', 'restart', 'hello']);
     $isNewConversation = empty($state) || $isRestartTrigger;
     
     // If it's a new conversation or a restart, start fresh
