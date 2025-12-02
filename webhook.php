@@ -83,7 +83,7 @@ if (!$body) {
 }
 
 $data = json_decode($body, true);
-logit("Incoming webhook data:", $data);
+logit("Incoming webhook data (v2):", $data);
 
 // Check if this is a message we've already processed
 $messageId = $data['entry'][0]['changes'][0]['value']['messages'][0]['id'] ?? null;
@@ -140,6 +140,15 @@ if (isset($data['entry'][0]['changes'][0]['value']['messages'][0])) {
     $msg = $data['entry'][0]['changes'][0]['value']['messages'][0];
     $from = $msg['from'] ?? 'unknown';
     $msgType = $msg['type'] ?? 'unknown';
+    $timestamp = $msg['timestamp'] ?? time();
+
+    // Check if message is older than 5 minutes (300 seconds)
+    if (time() - $timestamp > 300) {
+        logit("Ignoring old message from $from (Timestamp: $timestamp, Age: " . (time() - $timestamp) . "s)");
+        http_response_code(200);
+        echo 'EVENT_RECEIVED';
+        exit;
+    }
     
     // Handle different message types
     if ($msgType === 'text') {
