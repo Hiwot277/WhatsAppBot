@@ -14,9 +14,13 @@ function getCurrentStepMessage($step, $state = []) {
     switch ($step) {
         case 'welcome':
             return [
-                'text' => "Hi, I'm Robin Hood - here to help you pay less and get more. Would you like to see where you can save money right now?",
+                'text' => "היי, אני רובין הוד- כאן בשביל לעזור לך לשלם פחות ולקבל יותר.
+תרצה שנבדוק יחד איפה אפשר לחסוך כסף כבר עכשיו?",//"Hi, I'm Robin Hood - here to help you pay less and get more. Would you like to see where you can save money right now?",
                 'buttons' => [
-                    ['id' => 'lets_start', 'text' => 'tell me how it works']
+                    ['id' => 'lets_start', 'text' => 'ספר לי איך זה עובד'],
+                    //'tell me how it works'
+                     ['id' => 'yes', 'text' => 'כן']
+
                 ]
             ];
 
@@ -26,112 +30,139 @@ function getCurrentStepMessage($step, $state = []) {
             // So we might not need this, or we can keep it as a passthrough if needed.
             // For now, I'll align it with the previous logic but it might be bypassed.
             return [
-                'text' => "Have you always wanted to save money but didn't know where to start? We're here for you! We are a free, automatic system for checking eligibility for discounts and offers that help you save a lot - on interest, tax refunds and even bills, where to start?",
+                'text' => "מעולה, בוא נתחיל!
+בעבור איזה תחומים תרצה לבדוק כיצד לחסוך?",
                 'buttons' => [
-                    ['id' => 'tax_refund', 'text' => 'Tax refund']
+                    ['id' => 'tax_refund', 'text' => 'החזר מס'],
+                    ['id' => 'v2', 'text' => 'אחר'] ,
+                    ['id' => 'v3', 'text' => 'חשבונות חודשיים'] ,
+                    ['id' => 'v4', 'text' => 'ריביות והלוואות'] 
+
+
                 ]
             ];
             
         case 'area_selection':
             return [
-                'text' => "Have you always wanted to save money but didn't know where to start? We're here for you! We are a free, automatic system for checking eligibility for discounts and offers that help you save a lot - on interest, tax refunds and even bills, where to start?",
+                'text' => "תמיד רציתם לחסוך אבל לא ידעתם איפה להתחיל?  אנחנו פה בשבילכם!
+אנחנו מערכת לבדיקה אוטמטית וחינמית לזכאות הנחות והצעות שעוזרות לכם לחסוך בהרבה- ריביות, החזרי מס ואפילו חשבונות, שנתחיל?
+
+",
                 'buttons' => [
-                    ['id' => 'tax_refund', 'text' => 'Tax refund']
+                    ['id' => 'tax_refund', 'text' => 'החזר מס'],
+                    ['id' => 'v2', 'text' => 'אחר'] ,
+                    ['id' => 'v3', 'text' => 'חשבונות חודשיים'] ,
+                    ['id' => 'v4', 'text' => 'ריביות והלוואות'] 
+
                 ]
             ];
             
-        case 'employment_status':
-            return [
-                'text' => "Great! So I can check, I'll ask a few short questions (answer them briefly - less than a minute). Are you:\n\n1. I have been employed for the entire last 6 years\n2. I was an employee for part of my life (referring to a period of years)\n3. I am self-employed only",
-                'buttons' => [
-                    ['id' => 'employed_6yrs', 'text' => '1'],
-                    ['id' => 'employed_part', 'text' => '2'],
-                    ['id' => 'self_employed', 'text' => '3']
-                ]
-            ];
+case 'employment_status':
+    return [
+        'text' => "מעולה! כדי שאוכל לבדוק, אשאל כמה שאלות קצרות (הענה עליהם קצר – פחות מדקה).\n\nהאם אתה:\n\u{200F}1. אני שכיר בכל תקופת ה-6 השנים האחרונות\n\u{200F}2. הייתי בחלק מחיי שכיר (בהתייחסות לתקופה של שנים)\n\u{200F}3. אני עצמאי בלבד\n \n\u{200F}","\n", "",
+        'buttons' => [
+            ['id' => 'employed_6yrs', 'text' => '1'],
+            ['id' => 'employed_part', 'text' => '2'],
+            ['id' => 'self_employed', 'text' => '3']
+        ]
+    ];  
             
         case 'salary_range':
             return [
-                'text' => "What is your average salary in recent years?",
+                'text' => "מה גובה השכר הממוצע שלך בשנים האחרונות?"
+,//"What is your average salary in recent years?",
                 'buttons' => [
-                    ['id' => 'less_than_8000', 'text' => 'Less than 8,000'],
+                    ['id' => 'less_than_8000', 'text' => 'עד 8,000'],
                     ['id' => '8000_18000', 'text' => '8,000–18,000'],
-                    ['id' => 'more_than_18000', 'text' => 'More than 18,000']
+                    ['id' => 'more_than_18000', 'text' => 'מעל 18,000']
                 ]
             ];
             
         case 'tax_criteria':
             return [
-                'text' => "Does any of the following apply to you?\n\n- I pay tax on my salary\n- I have a pension/compensation/provident fund/training fund. I have paid tax in the last 6 years\n- I have paid capital gains tax in the last 6 years\n- I had capital market transactions that caused me a profit/loss in the last 6 years",
+        'text' => "מעולה! כדי שאוכל לבדוק, אשאל כמה שאלות קצרות (הענה עליהם קצר – פחות מדקה).\n\nהאם אתה:\n\u{200F}1. אני שכיר בכל תקופת ה-6 השנים האחרונות\n\u{200F}2. הייתי בחלק מחיי שכיר (בהתייחסות לתקופה של שנים)\n\u{200F}3. אני עצמאי בלבד\n \n\u{200F}","\n", "",
+
+                'text' => "האם אחד מהסעיפים הבאים תקפים אלייך?
+\n\u{200F} 1. אני משלם מס מהשכר שלך
+\u{200F} 2. אני בעל פידיון פנסיה/פיצויים/קופות גמל/קרן השתלמות שילמתי מס ב- 6 שנים אחרונות
+\u{200F} 3. שילמתי מס שבח ב6 שנים אחרונות
+\u{200F} 4. היו לי פעולות בשוק ההון שגרמו לי לרווח/הפסד ב- 6 שנים אחרונות \n \n\u{200F}","\n", "",//"Does any of the following apply to you?\n\n- I pay tax on my salary\n- I have a pension/compensation/provident fund/training fund. I have paid tax in the last 6 years\n- I have paid capital gains tax in the last 6 years\n- I had capital market transactions that caused me a profit/loss in the last 6 years",
                 'buttons' => [
-                    ['id' => 'yes', 'text' => 'Yes'],
-                    ['id' => 'no', 'text' => 'No']
+                    ['id' => 'yes', 'text' => 'כן'],
+                    ['id' => 'no', 'text' => 'לא']
                 ]
             ];
             
         case 'eligibility_check_1':
             return [
-                'text' => "Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?",
+                'text' => "האם יש לך ילדים, לימודים אקדמיים, תשלומים לביטוחים או מענקים שקיבלת שיכולים להשפיע על זכאות להחזר?",//"Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?",
                 'buttons' => [
-                    ['id' => 'yes', 'text' => 'Yes'],
-                    ['id' => 'no', 'text' => 'No']
+                    ['id' => 'yes', 'text' => 'כן'],
+                    ['id' => 'no', 'text' => 'לא']
                 ]
             ];
             
         case 'eligibility_check_2':
             return [
-                'text' => "Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?",
+                'text' => " האם ביצעת החזר מס ב6 שנים האחרונות?",
                 'buttons' => [
-                    ['id' => 'yes', 'text' => 'Yes'],
-                    ['id' => 'no', 'text' => 'No']
+                    ['id' => 'yes', 'text' => 'כן'],
+                    ['id' => 'no', 'text' => 'לא']
                 ]
             ];
             
         case 'collect_info_name':
             return [
-                'text' => "What is your full name?"
+                'text' => "מה שמך המלא?"
             ];
             
         case 'collect_info_phone':
             return [
-                'text' => "What is your phone number?"
+                'text' => "מה מספר הטלפון שלך?"
             ];
             
         case 'collect_info_id':
             return [
-                'text' => "What is your ID number?"
+                'text' => "מה תעודת הזהות שלך?"
             ];
             
         case 'savings_potential':
             return [
-                'text' => "It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
+                'text' => "נראה שיש לך פוטנציאל לחיסכון של כמה מאות שקלים בחודש
+רוצה שנבצע בדיקה מעמיקה חינם כדי לוודא?",//"It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
                 'buttons' => [
-                    ['id' => 'yes_check', 'text' => 'Yes, check for me'],
-                    ['id' => 'main_menu', 'text' => 'Main Menu']
+                    ['id' => 'yes_check', 'text' => 'כן, תבדקו לי'],
+                    ['id' => 'main_menu', 'text' => 'תפריט ראשי']
                 ]
             ];
 
         case 'tax_refund_example':
             return [
-                'text' => "Here is a quick example of how a tax refund works:\nIf you worked during the last 6 years and paid more tax than required, the state may owe you money back.\nRefunds can come from: employment gaps, studies, children, pension deposits, capital market activity, and many other factors.\nWe’ll now check your case in detail and update you with the amount you deserve.",
+                'text' => "דוגמה זריזה לאיך עובד החזר מס
+אם עבדת ב-6 השנים האחרונות ושילמת יותר מס ממה שהיית צריך, המדינה עשויה להיות חייבת לך כסף.
+החזרים יכולים להגיע מ: פערים בתעסוקה, לימודים, ילדים, הפקדות לפנסיה, פעילות בשוק ההון ועוד גורמים רבים.
+אנחנו נבדוק עכשיו את המקרה שלך לעומק ונעדכן אותך בסכום שמגיע לך.",//"Here is a quick example of how a tax refund works:\nIf you worked during the last 6 years and paid more tax than required, the state may owe you money back.\nRefunds can come from: employment gaps, studies, children, pension deposits, capital market activity, and many other factors.\nWe’ll now check your case in detail and update you with the amount you deserve.",
                 'buttons' => [
-                    ['id' => 'continue', 'text' => 'Continue']
+                    ['id' => 'continue', 'text' => 'המשך']
                 ]
             ];
             
         case 'confirmation':
             return [
-                'text' => "Thank you for choosing Robin Hood 🏹 We will update you as soon as we find savings! Shall we continue to save in other areas?",
+                'text' => "תודה שבחרת ברובין הוד 🏹
+אנחנו נעדכן אותך ברגע שיימצא חיסכון!
+שנמשיך לחסוך בעוד תחומים?",//"Thank you for choosing Robin Hood 🏹 We will update you as soon as we find savings! Shall we continue to save in other areas?",
                 'buttons' => [
-                    ['id' => 'main_menu', 'text' => 'Main Menu']
+                    ['id' => 'main_menu', 'text' => 'תפריט ראשי']
                 ]
             ];
             
         case 'no_savings':
             return [
-                'text' => "Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?",
+                'text' => "תודה שבחרת ברובין הוד 🏹
+נראה שכרגע אין לך פוטנציאל לחיסכון בתחום החזרי המס, שנבחר לבדוק תחום אחר?",//"Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?",
                 'buttons' => [
-                    ['id' => 'main_menu', 'text' => 'Main Menu']
+                    ['id' => 'main_menu', 'text' => 'תפריט ראשי']
                 ]
             ];
             
@@ -146,6 +177,12 @@ function getCurrentStepMessage($step, $state = []) {
 // --- Handler Functions ---
 
 function handleWelcome(&$state, $input) {
+    if ($input === 'yes') {
+        $state['step'] = 'intro_explainer';
+        saveUserResponse($state['phone_number'], 'welcome_response', $input);
+        return getCurrentStepMessage('intro_explainer');
+    }
+
     if ($input === 'lets_start' || $input === 'tell me how it works') {
         $state['step'] = 'area_selection';
         saveUserResponse($state['phone_number'], 'welcome_response', $input);
@@ -155,9 +192,19 @@ function handleWelcome(&$state, $input) {
 }
 
 function handleIntroExplainer(&$state, $input) {
-    if ($input === 'lets_start') {
-        $state['step'] = 'area_selection';
-        return getCurrentStepMessage('area_selection');
+    $normalized = strtolower(trim($input));
+    $normalized = str_replace(' ', '_', $normalized);
+    
+    if ($normalized === 'tax_refund') {
+        $state['step'] = 'employment_status';
+        saveUserResponse($state['phone_number'], 'intro_explainer_response', 'tax_refund');
+        return getCurrentStepMessage('employment_status');
+    }
+
+    if (in_array($normalized, ['v2', 'v3', 'v4', 'אחר', 'חשבונות_חודשיים', 'ריביות_והלוואות'])) {
+        $state['step'] = 'feature_not_ready';
+        saveUserResponse($state['phone_number'], 'intro_explainer_response', $input);
+        return getCurrentStepMessage('feature_not_ready');
     }
     return null;
 }
@@ -167,11 +214,19 @@ function handleIntroExplainer(&$state, $input) {
 function handleAreaSelection(&$state, $input) {
     $normalized = strtolower(trim($input));
     $normalized = str_replace(' ', '_', $normalized);
-    if ($normalized === 'tax_refund') {
+    
+    // Check for ID or Hebrew text
+    if ($normalized === 'tax_refund' || strpos($input, 'החזר מס') !== false) {
         $state['step'] = 'employment_status';
         $state['selected_area'] = 'tax_refund';
         saveUserResponse($state['phone_number'], 'selected_area', 'tax_refund');
         return getCurrentStepMessage('employment_status');
+    }
+
+    if (in_array($normalized, ['v2', 'v3', 'v4', 'אחר', 'חשבונות_חודשיים', 'ריביות_והלוואות'])) {
+        $state['step'] = 'feature_not_ready';
+        saveUserResponse($state['phone_number'], 'selected_area', $input);
+        return getCurrentStepMessage('feature_not_ready');
     }
     return null;
 }
@@ -345,18 +400,19 @@ function runScripts(&$from, &$text, array &$state) {
         $currentStep = $state['step'] ?? 'welcome';
         
         $validButtons = [
-            'welcome' => ['lets_start', 'tell me how it works'],
-            'intro_explainer' => ['tax_refund', 'tax refund'],
-            'area_selection' => ['tax_refund', 'tax refund'],
+            'welcome' => ['lets_start', 'tell me how it works', 'yes'],
+            'intro_explainer' => ['tax_refund', 'tax refund', 'החזר מס', 'v2', 'v3', 'v4', 'אחר', 'חשבונות חודשיים', 'ריביות והלוואות'],
+            'area_selection' => ['tax_refund', 'tax refund', 'החזר מס', 'v2', 'v3', 'v4', 'אחר', 'חשבונות חודשיים', 'ריביות והלוואות'],
             'employment_status' => ['employed_6yrs', 'employed_part', 'self_employed', '1', '2', '3'],
-            'salary_range' => ['less_than_8000', '8000_18000', 'more_than_18000', 'less than 8,000', '8,000–18,000', 'more than 18,000'],
-            'tax_criteria' => ['yes', 'no'],
-            'eligibility_check_1' => ['yes', 'no'],
-            'eligibility_check_2' => ['yes', 'no'],
-            'savings_potential' => ['yes_check', 'main_menu', 'yes, check for me', 'main menu'],
-            'tax_refund_example' => ['continue'],
-            'confirmation' => ['main_menu', 'main menu'],
-            'no_savings' => ['main_menu', 'main menu'],
+            'salary_range' => ['less_than_8000', '8000_18000', 'more_than_18000', 'less than 8,000', '8,000–18,000', 'more than 18,000', 'עד 8,000', 'מעל 18,000'],
+            'tax_criteria' => ['yes', 'no', 'כן', 'לא'],
+            'eligibility_check_1' => ['yes', 'no', 'כן', 'לא'],
+            'eligibility_check_2' => ['yes', 'no', 'כן', 'לא'],
+            'savings_potential' => ['yes_check', 'main_menu', 'yes, check for me', 'main menu', 'כן, תבדקו לי', 'תפריט ראשי'],
+            'tax_refund_example' => ['continue', 'המשך'],
+            'confirmation' => ['main_menu', 'main menu', 'תפריט ראשי'],
+            'no_savings' => ['main_menu', 'main menu', 'תפריט ראשי'],
+            'feature_not_ready' => ['tax_refund', 'tax refund', 'החזר מס'],
         ];
         
         $isFreeTextStep = in_array($currentStep, ['collect_info_name', 'collect_info_phone', 'collect_info_id']);
@@ -365,7 +421,7 @@ function runScripts(&$from, &$text, array &$state) {
         if (!$isFreeTextStep && !$isButtonInput) {
             error_log("Invalid input for button step $currentStep: '$lc'");
             return [
-                'text' => "   Please use the buttons or send 'Start' "
+                'text' => " ליחצו על הכפתורים או תשלחו start",//"   Please use the buttons or send 'Start' "
             ];
         }
         
@@ -385,6 +441,7 @@ function runScripts(&$from, &$text, array &$state) {
             'tax_refund_example' => 'handleTaxRefundExample',
             'confirmation' => 'handleConfirmation',
             'no_savings' => 'handleNoSavings',
+            'feature_not_ready' => 'handleFeatureNotReady',
             'exit_flow' => 'handleNoSavings'
         ];
         
@@ -394,7 +451,7 @@ function runScripts(&$from, &$text, array &$state) {
             
             if ($reply === null) {
                 return [
-                    'text' => "   Please use the buttons or send 'Start' "
+                    'text' => " ליחצו על הכפתורים או תשלחו start",//"Please use the buttons or send 'Start' "
                 ];
             }
             return $reply;
