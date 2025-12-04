@@ -200,12 +200,6 @@ function handleIntroExplainer(&$state, $input) {
         saveUserResponse($state['phone_number'], 'intro_explainer_response', 'tax_refund');
         return getCurrentStepMessage('employment_status');
     }
-
-    if (in_array($normalized, ['v2', 'v3', 'v4', 'אחר', 'חשבונות_חודשיים', 'ריביות_והלוואות'])) {
-        $state['step'] = 'feature_not_ready';
-        saveUserResponse($state['phone_number'], 'intro_explainer_response', $input);
-        return getCurrentStepMessage('feature_not_ready');
-    }
     return null;
 }
 
@@ -221,12 +215,6 @@ function handleAreaSelection(&$state, $input) {
         $state['selected_area'] = 'tax_refund';
         saveUserResponse($state['phone_number'], 'selected_area', 'tax_refund');
         return getCurrentStepMessage('employment_status');
-    }
-
-    if (in_array($normalized, ['v2', 'v3', 'v4', 'אחר', 'חשבונות_חודשיים', 'ריביות_והלוואות'])) {
-        $state['step'] = 'feature_not_ready';
-        saveUserResponse($state['phone_number'], 'selected_area', $input);
-        return getCurrentStepMessage('feature_not_ready');
     }
     return null;
 }
@@ -401,8 +389,8 @@ function runScripts(&$from, &$text, array &$state) {
         
         $validButtons = [
             'welcome' => ['lets_start', 'tell me how it works', 'yes'],
-            'intro_explainer' => ['tax_refund', 'tax refund', 'החזר מס', 'v2', 'v3', 'v4', 'אחר', 'חשבונות חודשיים', 'ריביות והלוואות'],
-            'area_selection' => ['tax_refund', 'tax refund', 'החזר מס', 'v2', 'v3', 'v4', 'אחר', 'חשבונות חודשיים', 'ריביות והלוואות'],
+            'intro_explainer' => ['tax_refund', 'tax refund', 'החזר מס'],
+            'area_selection' => ['tax_refund', 'tax refund', 'החזר מס'],
             'employment_status' => ['employed_6yrs', 'employed_part', 'self_employed', '1', '2', '3'],
             'salary_range' => ['less_than_8000', '8000_18000', 'more_than_18000', 'less than 8,000', '8,000–18,000', 'more than 18,000', 'עד 8,000', 'מעל 18,000'],
             'tax_criteria' => ['yes', 'no', 'כן', 'לא'],
@@ -412,7 +400,6 @@ function runScripts(&$from, &$text, array &$state) {
             'tax_refund_example' => ['continue', 'המשך'],
             'confirmation' => ['main_menu', 'main menu', 'תפריט ראשי'],
             'no_savings' => ['main_menu', 'main menu', 'תפריט ראשי'],
-            'feature_not_ready' => ['tax_refund', 'tax refund', 'החזר מס'],
         ];
         
         $isFreeTextStep = in_array($currentStep, ['collect_info_name', 'collect_info_phone', 'collect_info_id']);
@@ -441,7 +428,6 @@ function runScripts(&$from, &$text, array &$state) {
             'tax_refund_example' => 'handleTaxRefundExample',
             'confirmation' => 'handleConfirmation',
             'no_savings' => 'handleNoSavings',
-            'feature_not_ready' => 'handleFeatureNotReady',
             'exit_flow' => 'handleNoSavings'
         ];
         
