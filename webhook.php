@@ -4,6 +4,21 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Check Bot Status
+$statusFile = __DIR__ . '/bot_status.txt';
+if (file_exists($statusFile)) {
+    $status = trim(file_get_contents($statusFile));
+    if ($status === 'OFF') {
+        // Log only if it's a POST request to avoid spamming logs on GET checks if any
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            error_log("Bot is OFF. Ignoring request.");
+        }
+        http_response_code(200);
+        echo 'EVENT_RECEIVED';
+        exit;
+    }
+}
+
 // Simple webhook entry point. Place webhook.php in your project root.
 require_once __DIR__ . '/processor.php';
 require_once __DIR__ . '/send.php';
