@@ -14,10 +14,9 @@ function getCurrentStepMessage($step, $state = []) {
     switch ($step) {
         case 'welcome':
             return [
-                'text' => "היי, אני רובין הוד- כאן בשביל לעזור לך לשלם פחות ולקבל יותר.
-תרצה שנבדוק יחד איפה אפשר לחסוך כסף כבר עכשיו?",//"Hi, I'm Robin Hood - here to help you pay less and get more. Would you like to see where you can save money right now?",
+                'text' => "\u{200B}היי, אני רובין הוד- כאן בשביל לעזור לך לשלם פחות ולקבל יותר.\n\n\u{200B}תרצה שנבדוק יחד איפה אפשר לחסוך כסף כבר עכשיו?\n \n\u{200F}" ,"\n", "","\n",
                 'buttons' => [
-                    ['id' => 'lets_start', 'text' => 'ספר לי איך זה עובד'],
+                     ['id' => 'lets_start', 'text' => 'ספר לי איך זה עובד'],
                     //'tell me how it works'
                      ['id' => 'yes', 'text' => 'כן']
 
@@ -25,34 +24,20 @@ function getCurrentStepMessage($step, $state = []) {
             ];
 
         case 'intro_explainer':
-            // This step seems skipped in the new flow or merged. 
-            // The txt says "tell me how it works" -> Step 2 (Area Selection).
-            // So we might not need this, or we can keep it as a passthrough if needed.
-            // For now, I'll align it with the previous logic but it might be bypassed.
             return [
-                'text' => "מעולה, בוא נתחיל!
-בעבור איזה תחומים תרצה לבדוק כיצד לחסוך?",
+                'text' => "\u{200B}מעולה, בוא נתחיל!\n\u{200B}בעבור איזה תחומים תרצה לבדוק כיצד לחסוך?\n\n\u{200F}" ,"\n", " ","\n",
                 'buttons' => [
                     ['id' => 'tax_refund', 'text' => 'החזר מס'],
-                    ['id' => 'v2', 'text' => 'אחר'] ,
-                    ['id' => 'v3', 'text' => 'חשבונות חודשיים'] ,
-                    ['id' => 'v4', 'text' => 'ריביות והלוואות'] 
-
-
+                    ['id' => 'fast_loans', 'text' => 'ריביות והלוואות'] 
                 ]
             ];
             
         case 'area_selection':
             return [
-                'text' => "תמיד רציתם לחסוך אבל לא ידעתם איפה להתחיל?  אנחנו פה בשבילכם!
-אנחנו מערכת לבדיקה אוטמטית וחינמית לזכאות הנחות והצעות שעוזרות לכם לחסוך בהרבה- ריביות, החזרי מס ואפילו חשבונות, שנתחיל?
-
-",
+                'text' => "תמיד רציתם לחסוך אבל לא ידעתם איפה להתחיל?  אנחנו פה בשבילכם!\n\n\n\u{200F}אנחנו מערכת לבדיקה אוטמטית וחינמית לזכאות הנחות והצעות שעוזרות לכם לחסוך בהרבה- ריביות , החזרי מס ואפילו חשבונות , שנתחיל?\n \n\u{200F}" ,"\n", "","\n",
                 'buttons' => [
                     ['id' => 'tax_refund', 'text' => 'החזר מס'],
-                    ['id' => 'v2', 'text' => 'אחר'] ,
-                    ['id' => 'v3', 'text' => 'חשבונות חודשיים'] ,
-                    ['id' => 'v4', 'text' => 'ריביות והלוואות'] 
+                    ['id' => 'fast_loans', 'text' => 'ריביות והלוואות'] 
 
                 ]
             ];
@@ -95,7 +80,7 @@ case 'employment_status':
             
         case 'eligibility_check_1':
             return [
-                'text' => "האם יש לך ילדים, לימודים אקדמיים, תשלומים לביטוחים או מענקים שקיבלת שיכולים להשפיע על זכאות להחזר?",//"Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?",
+                'text' => "האם יש לך ילדים, לימודים אקדמיים, תשלומים לביטוחים או מענקים שקיבלת שיכולים להשפיע על זכאות להחזר?\n \n\u{200F}" ,"\n", "","\n",//"Do you have children, academic studies, insurance payments, or grants you have received that could affect your eligibility for a refund?",
                 'buttons' => [
                     ['id' => 'yes', 'text' => 'כן'],
                     ['id' => 'no', 'text' => 'לא']
@@ -129,7 +114,7 @@ case 'employment_status':
         case 'savings_potential':
             return [
                 'text' => "נראה שיש לך פוטנציאל לחיסכון של כמה מאות שקלים בחודש
-רוצה שנבצע בדיקה מעמיקה חינם כדי לוודא?",//"It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
+רוצה שנבצע בדיקה מעמיקה חינם כדי לוודא?\n \n\u{200F}" ,"\n", "","\n",//"It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
                 'buttons' => [
                     ['id' => 'yes_check', 'text' => 'כן, תבדקו לי'],
                     ['id' => 'main_menu', 'text' => 'תפריט ראשי']
@@ -139,9 +124,7 @@ case 'employment_status':
         case 'tax_refund_example':
             return [
                 'text' => "דוגמה זריזה לאיך עובד החזר מס
-אם עבדת ב-6 השנים האחרונות ושילמת יותר מס ממה שהיית צריך, המדינה עשויה להיות חייבת לך כסף.
-החזרים יכולים להגיע מ: פערים בתעסוקה, לימודים, ילדים, הפקדות לפנסיה, פעילות בשוק ההון ועוד גורמים רבים.
-אנחנו נבדוק עכשיו את המקרה שלך לעומק ונעדכן אותך בסכום שמגיע לך.",//"Here is a quick example of how a tax refund works:\nIf you worked during the last 6 years and paid more tax than required, the state may owe you money back.\nRefunds can come from: employment gaps, studies, children, pension deposits, capital market activity, and many other factors.\nWe’ll now check your case in detail and update you with the amount you deserve.",
+אם עבדת ב-6 השנים האחרונות ושילמת יותר מס ממה שהיית צריך, המדינה עשויה להיות חייבת לך כסף.החזרים יכולים להגיע מ: פערים בתעסוקה, לימודים, ילדים, הפקדות לפנסיה, פעילות בשוק ההון ועוד גורמים רבים.אנחנו נבדוק עכשיו את המקרה שלך לעומק ונעדכן אותך בסכום שמגיע לך.\n \n\u{200F}" ,"\n", "","\n",//"Here is a quick example of how a tax refund works:\nIf you worked during the last 6 years and paid more tax than required, the state may owe you money back.\nRefunds can come from: employment gaps, studies, children, pension deposits, capital market activity, and many other factors.\nWe’ll now check your case in detail and update you with the amount you deserve.",
                 'buttons' => [
                     ['id' => 'continue', 'text' => 'המשך']
                 ]
@@ -150,8 +133,8 @@ case 'employment_status':
         case 'confirmation':
             return [
                 'text' => "תודה שבחרת ברובין הוד 🏹
-אנחנו נעדכן אותך ברגע שיימצא חיסכון!
-שנמשיך לחסוך בעוד תחומים?",//"Thank you for choosing Robin Hood 🏹 We will update you as soon as we find savings! Shall we continue to save in other areas?",
+\u{200F} אנחנו נעדכן אותך ברגע שיימצא חיסכון!
+\u{200F}שנמשיך לחסוך בעוד תחומים?\n \n\u{200F}","\n", "","\n",//"Thank you for choosing Robin Hood 🏹 We will update you as soon as we find savings! Shall we continue to save in other areas?",
                 'buttons' => [
                     ['id' => 'main_menu', 'text' => 'תפריט ראשי']
                 ]
@@ -160,7 +143,7 @@ case 'employment_status':
         case 'no_savings':
             return [
                 'text' => "תודה שבחרת ברובין הוד 🏹
-נראה שכרגע אין לך פוטנציאל לחיסכון בתחום החזרי המס, שנבחר לבדוק תחום אחר?",//"Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?",
+\u{200F}נראה שכרגע אין לך פוטנציאל לחיסכון בתחום החזרי המס, שנבחר לבדוק תחום אחר?\n \n\u{200F}" ,"\n", "","\n",//"Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?",
                 'buttons' => [
                     ['id' => 'main_menu', 'text' => 'תפריט ראשי']
                 ]
@@ -334,9 +317,9 @@ function handleSavingsPotential(&$state, $input) {
     }
     
     if ($input === 'main_menu' || $input === 'main menu') {
-        $state['step'] = 'area_selection';
+        $state['step'] = 'intro_explainer';
         saveUserResponse($state['phone_number'], 'savings_potential_response', 'main_menu');
-        return getCurrentStepMessage('area_selection');
+        return getCurrentStepMessage('intro_explainer');
     }
     return null;
 }
@@ -351,18 +334,18 @@ function handleTaxRefundExample(&$state, $input) {
 
 function handleConfirmation(&$state, $input) {
     if ($input === 'main_menu' || $input === 'main menu') {
-        $state['step'] = 'area_selection';
+        $state['step'] = 'intro_explainer';
         saveUserResponse($state['phone_number'], 'confirmation_response', 'main_menu');
-        return getCurrentStepMessage('area_selection');
+        return getCurrentStepMessage('intro_explainer');
     }
     return null;
 }
 
 function handleNoSavings(&$state, $input) {
     if ($input === 'main_menu' || $input === 'main menu') {
-        $state['step'] = 'area_selection';
+        $state['step'] = 'intro_explainer';
         saveUserResponse($state['phone_number'], 'no_savings_response', 'main_menu');
-        return getCurrentStepMessage('area_selection');
+        return getCurrentStepMessage('intro_explainer');
     }
     return null;
 }
