@@ -248,6 +248,21 @@ function getUserResponses($phoneNumber) {
 }
 
 /**
+ * Get a specific user response field
+ * 
+ * @param string $phoneNumber User's phone number
+ * @param string $field Field name to retrieve
+ * @return mixed|false The value of the field, or false if not found
+ */
+function getUserResponse($phoneNumber, $field) {
+    $data = getUserResponses($phoneNumber);
+    if ($data && isset($data[$field])) {
+        return $data[$field];
+    }
+    return false;
+}
+
+/**
  * Get all user responses (for admin purposes)
  * 
  * @return array|false Array of all user responses, or false on failure
