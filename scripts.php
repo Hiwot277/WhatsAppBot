@@ -284,7 +284,7 @@ function handleIntroExplainer(&$state, $input) {
     return null;
 }
 
-            error_log("Invalid input for button step $currentStep: '$lc'");
+
 
 function handleAreaSelection(&$state, $input) {
     $normalized = strtolower(trim($input));
