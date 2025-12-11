@@ -113,11 +113,9 @@ case 'employment_status':
             
         case 'savings_potential':
             return [
-                'text' => "נראה שיש לך פוטנציאל לחיסכון של כמה מאות שקלים בחודש
-רוצה שנבצע בדיקה מעמיקה חינם כדי לוודא?\n \n\u{200F}" ,"\n", "","\n",//"It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
+                'text' => "נראה שיש לך שיש לך פוטנציאל להחזר מס והנציג שלנו יחזור אלייך עם גובה ההחזר שמגיע לך בהקדם\n \n\u{200F}" ,"\n", "","\n",//"It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
                 'buttons' => [
-                    ['id' => 'yes_check', 'text' => 'כן, תבדקו לי'],
-                    ['id' => 'main_menu', 'text' => 'תפריט ראשי']
+                    ['id' => 'main_menu', 'text' => 'המשך לחסוך']
                 ]
             ];
 
@@ -291,6 +289,7 @@ function handleAreaSelection(&$state, $input) {
     $normalized = str_replace(' ', '_', $normalized);
     
     // Check for ID or Hebrew text
+    // Check for ID or Hebrew text
     if ($normalized === 'tax_refund' || strpos($input, 'החזר מס') !== false) {
         $state['step'] = 'employment_status';
         $state['selected_area'] = 'tax_refund';
@@ -381,9 +380,11 @@ function handleEligibilityCheck2(&$state, $input) {
 function handleCollectInfoName(&$state, $input) {
     if (!empty($input)) {
         $state['full_name'] = $input;
-        $state['step'] = 'collect_info_phone';
+        $state['phone_num_2'] = $state['phone_number'];
+        $state['step'] = 'savings_potential';
         saveUserResponse($state['phone_number'], 'full_name', $input);
-        return getCurrentStepMessage('collect_info_phone');
+        saveUserResponse($state['phone_number'], 'phone_num_2', $state['phone_number']);
+        return getCurrentStepMessage('savings_potential');
     }
     return getCurrentStepMessage('collect_info_name');
 }
@@ -590,6 +591,14 @@ function runScripts(&$from, &$text, array &$state) {
         return getCurrentStepMessage('welcome');
     }
     
+    if (strpos($lc, 'tax') !== false || 
+        strpos($lc, 'refund') !== false || 
+        strpos($text, 'מס') !== false || 
+        strpos($text, 'החזר') !== false) {
+        $state['step'] = 'employment_status';
+        return getCurrentStepMessage('employment_status');
+    }
+
     if (!isset($state['step'])) {
         $state['step'] = 'welcome';
         return getCurrentStepMessage('welcome');
