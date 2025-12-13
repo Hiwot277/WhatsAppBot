@@ -6,7 +6,7 @@ define('DB_PASSWORD', '');  // Database password
 define('DB_NAME', 'whatsapp_bot');
 
 // Google Sheets Webhook URL
-define('GOOGLE_SHEETS_WEBHOOK_URL', 'https://script.google.com/macros/s/AKfycbzR3t3v2ISVnzDRJvgmO9UuYVz7-BJqi-O9HmSY7losE9dr6aFoR2abu5t9dZgu-74/exec');
+define('GOOGLE_SHEETS_WEBHOOK_URL', 'https://script.google.com/macros/s/AKfycbxEhCeIdf7_vFehAWt5JF9jiKA6jBzW8pgKadhlHMlcyvfNhF7BofF3gA55PDRlYJg/exec');
 
 // Enable detailed error reporting
 error_reporting(E_ALL);
@@ -41,7 +41,7 @@ function initializeDatabase() {
         return false;
     }
     
-    // Create the table if it doesn't exist
+    // Create the main tax refund table if it doesn't exist
     $sql = "CREATE TABLE IF NOT EXISTS users_responses (
         id INT AUTO_INCREMENT PRIMARY KEY,
         phone_number VARCHAR(20) NOT NULL,
@@ -62,7 +62,36 @@ function initializeDatabase() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
     
     if ($conn->query($sql) !== TRUE) {
-        error_log("Error creating table: " . $conn->error);
+        error_log("Error creating users_responses table: " . $conn->error);
+        $conn->close();
+        return false;
+    }
+
+    // Create a separate table for fast loans flow answers
+    $sqlLoans = "CREATE TABLE IF NOT EXISTS loans_responses (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        phone_number VARCHAR(20) NOT NULL,
+        loans_credit_card VARCHAR(50),
+        loans_employment_status VARCHAR(50),
+        loans_amount VARCHAR(50),
+        loans_pension_fund VARCHAR(10),
+        loans_turnover VARCHAR(50),
+        loans_business_age VARCHAR(50),
+        loans_real_estate VARCHAR(10),
+        loans_full_name VARCHAR(100),
+        loans_id_number VARCHAR(50),
+        loans_savings_potential VARCHAR(50),
+        conversation_start TIMESTAMP NULL,
+        conversation_end TIMESTAMP NULL,
+        conversation_complete BOOLEAN DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_phone_number (phone_number),
+        INDEX idx_conversation_complete (conversation_complete)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+
+    if ($conn->query($sqlLoans) !== TRUE) {
+        error_log("Error creating loans_responses table: " . $conn->error);
         $conn->close();
         return false;
     }

@@ -270,13 +270,15 @@ function handleIntroExplainer(&$state, $input) {
     
     if ($normalized === 'tax_refund') {
         $state['step'] = 'employment_status';
-        saveUserResponse($state['phone_number'], 'intro_explainer_response', 'tax_refund');
+        $state['selected_area'] = 'tax_refund';
+        saveUserResponse($state['phone_number'], 'selected_area', 'tax_refund');
         return getCurrentStepMessage('employment_status');
     }
 
     if ($normalized === 'fast_loans' || strpos($input, 'ריביות והלוואות') !== false) {
         $state['step'] = 'loans_credit_card';
-        saveUserResponse($state['phone_number'], 'intro_explainer_response', 'fast_loans');
+        $state['selected_area'] = 'fast_loans';
+        saveUserResponse($state['phone_number'], 'selected_area', 'fast_loans');
         return getCurrentStepMessage('loans_credit_card');
     }
     return null;
