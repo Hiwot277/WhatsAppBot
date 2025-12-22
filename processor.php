@@ -25,8 +25,24 @@ function processMessage($from, $text, $messageId = null) {
     
     // Ensure state directory exists
     $stateDir = __DIR__ . '/state';
+    
+    // Check if we can write to the local directory
     if (!file_exists($stateDir)) {
-        mkdir($stateDir, 0755, true);
+        if (!@mkdir($stateDir, 0755, true)) {
+            // Fallback to system temp directory if we can't create 'state'
+            $stateDir = sys_get_temp_dir() . '/whatsapp_bot_state';
+            if (!file_exists($stateDir)) {
+                mkdir($stateDir, 0755, true);
+            }
+        }
+    } else {
+        // If it exists but is not writable, switch to temp
+        if (!is_writable($stateDir)) {
+            $stateDir = sys_get_temp_dir() . '/whatsapp_bot_state';
+            if (!file_exists($stateDir)) {
+                mkdir($stateDir, 0755, true);
+            }
+        }
     }
 
     // Load state from file
@@ -86,8 +102,10 @@ function processMessage($from, $text, $messageId = null) {
     // Save the updated state if not ending conversation
     // Save the updated state if not ending conversation
     if (!isset($reply['end_conversation'])) {
-        if (!@file_put_contents($stateFile, json_encode($state))) {
-            error_log("Failed to save state to file: $stateFile");
+        $saveResult = @file_put_contents($stateFile, json_encode($state));
+        if ($saveResult === false) {
+            $error = error_get_last();
+            error_log("CRITICAL: Failed to save state to file: $stateFile. Error: " . ($error['message'] ?? 'Unknown'));
         }
     } else {
         // Clear the state file if conversation ended

@@ -1,9 +1,15 @@
 <?php
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_USERNAME', 'root');  // Database username
-define('DB_PASSWORD', '');  // Database password
-define('DB_NAME', 'whatsapp_bot');
+define('DB_USERNAME', 'pdnatsrzkb');  // Database username
+define('DB_PASSWORD', 'fpA4Pf9Mnu');  // Database password
+define('DB_NAME', 'pdnatsrzkb');
+
+// define('DB_HOST', 'localhost');
+// define('DB_USERNAME', 'root');  // Database username
+// define('DB_PASSWORD', '');  // Database password
+// define('DB_NAME', 'whatsapp_bot');
+
 
 // Google Sheets Webhook URL
 define('GOOGLE_SHEETS_WEBHOOK_URL', 'https://script.google.com/macros/s/AKfycbxEhCeIdf7_vFehAWt5JF9jiKA6jBzW8pgKadhlHMlcyvfNhF7BofF3gA55PDRlYJg/exec');
@@ -17,7 +23,13 @@ function getDbConnection() {
     // Debug: Log connection attempt
     error_log("[DB] Attempting to connect to database: " . DB_NAME . " on " . DB_HOST . " as " . DB_USERNAME);
     
-    $conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    try {
+        $conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+    } catch (Exception $e) {
+        $error = "Database connection failed: " . $e->getMessage();
+        error_log("[DB ERROR] $error");
+        return false;
+    }
     
     // Check connection
     if ($conn->connect_error) {
@@ -100,8 +112,29 @@ function initializeDatabase() {
     $checkColumn = $conn->query("SHOW COLUMNS FROM users_responses LIKE 'full_name'");
     if ($checkColumn && $checkColumn->num_rows == 0) {
         $alterSql = "ALTER TABLE users_responses ADD COLUMN full_name VARCHAR(100) AFTER phone_number";
-        if ($conn->query($alterSql) !== TRUE) {
-            error_log("Error adding full_name column: " . $conn->error);
+        if ($conn->query($alterSql) !== TRUE) error_log("Error adding full_name column: " . $conn->error);
+    }
+
+    // List of additional columns to ensure existence
+    $missingColumns = [
+        'welcome_response' => "VARCHAR(255)",
+        'selected_area' => "VARCHAR(50)",
+        'phone_num_2' => "VARCHAR(50)",
+        'id_number' => "VARCHAR(50)",
+        'savings_potential_response' => "VARCHAR(50)",
+        'confirmation_response' => "VARCHAR(50)",
+        'no_savings_response' => "VARCHAR(50)"
+    ];
+
+    foreach ($missingColumns as $col => $def) {
+        $check = $conn->query("SHOW COLUMNS FROM users_responses LIKE '$col'");
+        if ($check && $check->num_rows == 0) {
+            $alter = "ALTER TABLE users_responses ADD COLUMN $col $def";
+            if ($conn->query($alter) !== TRUE) {
+                error_log("Error adding $col column: " . $conn->error);
+            } else {
+                error_log("Successfully added column $col");
+            }
         }
     }
     

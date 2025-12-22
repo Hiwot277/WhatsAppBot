@@ -255,9 +255,8 @@ function sendToGoogleSheet($phoneNumber, $field, $value) {
     // Follow redirects is CRITICAL for Google Scripts
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); 
     
-    // Timeout: 10 seconds. 
-    // This ensures we wait for the save, but don't hang forever if Google is slow.
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10); 
+    // Timeout: 3 seconds (was 10) to prevent hanging the webhook
+    curl_setopt($ch, CURLOPT_TIMEOUT, 3); 
     
     // Execute
     $result = curl_exec($ch);
@@ -308,6 +307,7 @@ function getUserResponses($phoneNumber) {
     
     $conn->close();
     return false;
+    
 }
 
 /**
@@ -327,7 +327,7 @@ function getUserResponse($phoneNumber, $field) {
 
 /**
  * Get all user responses (for admin purposes)
- * 
+ *  
  * @return array|false Array of all user responses, or false on failure
  */
 function getAllUserResponses() {

@@ -28,7 +28,7 @@ function getCurrentStepMessage($step, $state = []) {
                 'text' => "\u{200B}מעולה, בוא נתחיל!\n\u{200B}בעבור איזה תחומים תרצה לבדוק כיצד לחסוך?\n\n\u{200F}" ,"\n", " ","\n",
                 'buttons' => [
                     ['id' => 'tax_refund', 'text' => 'החזר מס'],
-                    ['id' => 'fast_loans', 'text' => 'ריביות והלוואות'] 
+                 //   ['id' => 'fast_loans', 'text' => 'ריביות והלוואות'] 
                 ]
             ];
             
@@ -37,18 +37,18 @@ function getCurrentStepMessage($step, $state = []) {
                 'text' => "תמיד רציתם לחסוך אבל לא ידעתם איפה להתחיל?  אנחנו פה בשבילכם!\n\n\n\u{200F}אנחנו מערכת לבדיקה אוטמטית וחינמית לזכאות הנחות והצעות שעוזרות לכם לחסוך בהרבה- ריביות , החזרי מס ואפילו חשבונות , שנתחיל?\n \n\u{200F}" ,"\n", "","\n",
                 'buttons' => [
                     ['id' => 'tax_refund', 'text' => 'החזר מס'],
-                    ['id' => 'fast_loans', 'text' => 'ריביות והלוואות'] 
+             //       ['id' => 'fast_loans', 'text' => 'ריביות והלוואות'] 
 
                 ]
             ];
             
 case 'employment_status':
     return [
-        'text' => "מעולה! כדי שאוכל לבדוק, אשאל כמה שאלות קצרות (המענה עליהם קצר – פחות מדקה).\n\nהאם אתה:\n\u{200F}1. אני שכיר בכל תקופת ה-6 השנים האחרונות\n\u{200F}2. הייתי בחלק מחיי שכיר (בהתייחסות לתקופה של שנים)\n\u{200F}3. אני עצמאי בלבד\n \n\u{200F}","\n", "",
+        'text' => "מעולה! כדי שאוכל לבדוק, אשאל כמה שאלות קצרות (המענה עליהם קצר – פחות מדקה).\n\nהאם אתה:\n\u{200F}",
         'buttons' => [
-            ['id' => 'employed_6yrs', 'text' => '1'],
-            ['id' => 'employed_part', 'text' => '2'],
-            ['id' => 'self_employed', 'text' => '3']
+            ['id' => 'employed_6yrs', 'text' => 'שכיר ב6 שנים אחרונות'],
+            ['id' => 'employed_part', 'text' => 'הייתי שכיר בעבר'],
+            ['id' => 'self_employed', 'text' => 'עצמאי בלבד']
         ]
     ];  
             
@@ -67,7 +67,7 @@ case 'employment_status':
             return [
         // 'text' => "מעולה! כדי שאוכל לבדוק, אשאל כמה שאלות קצרות (הענה עליהם קצר – פחות מדקה).\n\nהאם אתה:\n\u{200F}1. אני שכיר בכל תקופת ה-6 השנים האחרונות\n\u{200F}2. הייתי בחלק מחיי שכיר (בהתייחסות לתקופה של שנים)\n\u{200F}3. אני עצמאי בלבד\n \n\u{200F}","\n", "",
 
-                'text' => "האם אחד מהסעיפים הבאים תקפים אלייך?
+                'text' => "האם אחד מהסעיפים הבאים תקפים עלייך?
 \n\u{200F} 1. אני משלם מס מהשכר שלך
 \u{200F} 2. אני בעל פידיון פנסיה/פיצויים/קופות גמל/קרן השתלמות ושילמתי מס ב- 6 שנים אחרונות
 \u{200F} 3. שילמתי מס שבח ב6 שנים אחרונות
@@ -115,7 +115,7 @@ case 'employment_status':
             return [
                 'text' => "נראה שיש לך שיש לך פוטנציאל להחזר מס והנציג שלנו יחזור אלייך עם גובה ההחזר שמגיע לך בהקדם\n \n\u{200F}" ,"\n", "","\n",//"It looks like you have the potential to save a few hundred shekels a month. Want us to do a free in-depth check to make sure?",
                 'buttons' => [
-                    ['id' => 'main_menu', 'text' => 'המשך לחסוך']
+                    ['id' => 'main_menu', 'text' => '!המשך לחסוך'], 
                 ]
             ];
 
@@ -134,7 +134,7 @@ case 'employment_status':
 \u{200F} אנחנו נעדכן אותך ברגע שיימצא חיסכון!
 \u{200F}שנמשיך לחסוך בעוד תחומים?\n \n\u{200F}","\n", "","\n",//"Thank you for choosing Robin Hood 🏹 We will update you as soon as we find savings! Shall we continue to save in other areas?",
                 'buttons' => [
-                    ['id' => 'main_menu', 'text' => 'תפריט ראשי']
+                    ['id' => 'main_menu', 'text' => ' !המשך לחסוך ']
                 ]
             ];
             
@@ -143,7 +143,7 @@ case 'employment_status':
                 'text' => "תודה שבחרת ברובין הוד 🏹
 \u{200F}נראה שכרגע אין לך פוטנציאל לחיסכון בתחום החזרי המס, שנבחר לבדוק תחום אחר?\n \n\u{200F}" ,"\n", "","\n",//"Thank you for choosing Robin Hood 🏹 It seems that you currently have no potential for savings in the area of tax refunds, so why not check out another area?",
                 'buttons' => [
-                    ['id' => 'main_menu', 'text' => 'תפריט ראשי']
+                    ['id' => 'main_menu', 'text' => ' !המשך לחסוך ']
                 ]
             ];
 
@@ -250,13 +250,13 @@ case 'employment_status':
 // --- Handler Functions ---
 
 function handleWelcome(&$state, $input) {
-    if ($input === 'yes') {
+    if ($input === 'yes' || $input === 'כן') {
         $state['step'] = 'intro_explainer';
         saveUserResponse($state['phone_number'], 'welcome_response', $input);
         return getCurrentStepMessage('intro_explainer');
     }
 
-    if ($input === 'lets_start' || $input === 'tell me how it works') {
+    if ($input === 'lets_start' || $input === 'tell me how it works' || $input === 'ספר לי איך זה עובד') {
         $state['step'] = 'area_selection';
         saveUserResponse($state['phone_number'], 'welcome_response', $input);
         return getCurrentStepMessage('area_selection');
@@ -610,7 +610,7 @@ function runScripts(&$from, &$text, array &$state) {
         $currentStep = $state['step'] ?? 'welcome';
         
         $validButtons = [
-            'welcome' => ['lets_start', 'tell me how it works', 'yes'],
+            'welcome' => ['lets_start', 'tell me how it works', 'yes', 'ספר לי איך זה עובד', 'כן'],
             'intro_explainer' => ['tax_refund', 'tax refund', 'החזר מס', 'fast_loans', 'ריביות והלוואות'],
             'area_selection' => ['tax_refund', 'tax refund', 'החזר מס', 'fast_loans', 'ריביות והלוואות'],
             'employment_status' => ['employed_6yrs', 'employed_part', 'self_employed', '1', '2', '3'],
@@ -644,7 +644,7 @@ function runScripts(&$from, &$text, array &$state) {
         if (!$isFreeTextStep && !$isButtonInput) {
             error_log("Invalid input for button step $currentStep: '$lc'");
             return [
-                'text' => " ליחצו על הכפתורים או תשלחו start",//"   Please use the buttons or send 'Start' "
+                'text' => " אנא השתמש בכפתורים או שלח 'Start' \n(Debug: Current Step: $currentStep)",
             ];
         }
         
@@ -701,7 +701,7 @@ function runScripts(&$from, &$text, array &$state) {
     } catch (Exception $e) {
         error_log("Error in runScripts: " . $e->getMessage());
         return [
-            'text' => "   אנא השתמש בכפתורים או שלח 'Start' ",
+            'text' => "DEBUG ERROR: " . $e->getMessage(), // Exposed for debugging
             'end_conversation' => true
         ];
     }
