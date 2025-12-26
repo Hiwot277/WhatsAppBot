@@ -125,7 +125,7 @@ if ($messageId) {
             http_response_code(200);
             echo 'EVENT_RECEIVED';
             exit;
-        }
+        } 
         
         $processedMessages[$messageId] = time();
         
@@ -194,9 +194,7 @@ if (isset($data['entry'][0]['changes'][0]['value']['messages'][0])) {
         logit("Send response:", $sendResp);
     } else {
         logit("No reply generated for message from $from");
-        // No default response needed, as invalid input is handled in scripts.php
-        // and returns a reply. If reply is null, it means the message was a duplicate
-        // or empty, which should be silently ignored.
+        
     }
 } else {
     logit("No message object in payload");

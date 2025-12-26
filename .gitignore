@@ -1,0 +1,40 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+
+# IDE and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and runtime files
+*.log
+logs/
+php_errors.log
+webhook.log
+error.log
+processed_messages.json
+bot_status.txt
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Node modules (if any)
+node_modules/
+
+# Composer (if any)
+vendor/
+composer.lock
+
+# Cache
+.cache/
+
+# State files
+state/
+*.json

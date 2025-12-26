@@ -47,7 +47,7 @@ $isOnline = ($status === 'ON');
             margin-bottom: 2rem;
             font-size: 1.5rem;
             color: #1a1a1a;
-        }
+        }       
         .status-indicator {
             font-size: 1.2rem;
             margin-bottom: 1.5rem;

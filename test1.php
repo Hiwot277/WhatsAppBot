@@ -18,7 +18,7 @@ function clearUserState($phone) {
     if (file_exists($stateFile)) {
         unlink($stateFile);
         echo "Cleared state file: $stateFile\n";
-    }
+    } 
     if (file_exists($lastMessageFile)) {
         unlink($lastMessageFile);
         echo "Cleared last message file: $lastMessageFile\n";
