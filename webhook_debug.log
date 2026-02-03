@@ -1,0 +1,14 @@
+[27-Nov-2025 15:24:58 Europe/Berlin] 
+
+=== New Webhook Request ===
+[27-Nov-2025 15:24:58 Europe/Berlin] Time: 2025-11-27 15:24:58
+[27-Nov-2025 15:24:58 Europe/Berlin] Request Method: POST
+[27-Nov-2025 15:24:58 Europe/Berlin] Request URI: /webhook.php
+[27-Nov-2025 15:24:58 Europe/Berlin] Raw POST data: {"object":"whatsapp_business_account","entry":[{"id":"1045071264380567","changes":[{"value":{"messaging_product":"whatsapp","metadata":{"display_phone_number":"15556164705","phone_number_id":"931811476671891"},"contacts":[{"profile":{"name":"Hiwot"},"wa_id":"251982622584"}],"messages":[{"from":"251982622584","id":"wamid.HBgMMjUxOTgyNjIyNTg0FQIAEhgWM0VCMDdEQjk5QTJENUVCQUY1Q0JCNAA=","timestamp":"1764253498","text":{"body":"hi"},"type":"text"}]},"field":"messages"}]}]}
+[27-Nov-2025 15:24:58 Europe/Berlin] 
+
+=== New Webhook Request ===
+[27-Nov-2025 15:24:58 Europe/Berlin] Time: 2025-11-27 15:24:58
+[27-Nov-2025 15:24:58 Europe/Berlin] Request Method: POST
+[27-Nov-2025 15:24:58 Europe/Berlin] Request URI: /webhook.php
+[27-Nov-2025 15:24:58 Europe/Berlin] Raw POST data: {"object":"whatsapp_business_account","entry":[{"id":"1045071264380567","changes":[{"value":{"messaging_product":"whatsapp","metadata":{"display_phone_number":"15556164705","phone_number_id":"931811476671891"},"contacts":[{"profile":{"name":"Hiwot"},"wa_id":"251982622584"}],"messages":[{"from":"251982622584","id":"wamid.HBgMMjUxOTgyNjIyNTg0FQIAEhgWM0VCMDdEQjk5QTJENUVCQUY1Q0JCNAA=","timestamp":"1764253498","text":{"body":"hi"},"type":"text"}]},"field":"messages"}]}]}

@@ -1,0 +1,332 @@
+﻿
+      "type": 
+"interactive",
+      "text": "no",
+      "message_id": "
+wamid.HBgMMjUxOTgyNjI
+yNTg0FQIAEhgWM0VCMEI0
+Qjg0QkM1ODkyQkMyQzM3R
+AA="
+  }
+  [2025-12-01 
+13:34:17] [unknown] 
+Generated reply: {
+>     "text": 
+"Please use the 
+buttons or send 
+start."
+  }
+  [2025-12-01 
+13:34:17] [unknown] 
+Incoming webhook 
+data (v2): {
+      "object": "what
+sapp_business_account
+",
+      "entry": [
+          {
+          
+"messaging_product": 
+"whatsapp",
+          
+"recipient_type": 
+"individual",
+          "to": 
+"251982622584",
+          "type": 
+"text",
+          "text": {
+>             
+"body": "Please use 
+the buttons or send 
+start."
+          }
+      }
+  }
+  [2025-12-01 
+13:34:19] [unknown] 
+Incoming webhook 
+data (v2): {
+      "object": "what
+sapp_business_account
+",
+                     
+         {
+                     
+             "from": 
+"251982622584",
+                     
+             "id": "w
+amid.HBgMMjUxOTgyNjIy
+NTg0FQIAEhgWM0VCMEMyQ
+UQxMTcwRTcxM0YyQjUyMg
+A=",
+                     
+             
+"timestamp": 
+"1764592476",
+                     
+             "text": 
+{
+>                    
+                 
+"body": "start"
+                     
+             },
+                     
+             "type": 
+"text"
+                     
+         }
+                     
+     ]
+                     
+ },
+      ]
+  }
+  [2025-12-01 
+13:34:33] [unknown] 
+Processing message {
+      "from": 
+"251982622584",
+      "type": "text",
+>     "text": 
+"start",
+      "message_id": "
+wamid.HBgMMjUxOTgyNjI
+yNTg0FQIAEhgWM0VCMEMy
+QUQxMTcwRTcxM0YyQjUyM
+gA="
+  }
+  [2025-12-01 
+13:34:33] [unknown] 
+Generated reply: {
+      "text": "\u200f
+\u05d4\u05d9\u05d9, 
+\u05d0\u05e0\u05d9 \u
+05e8\u05d5\u05d1\u05d
+9\u05df 
+\u05d4\u05d5\u05d3 
+(v2) - 
+\u05db\u05d0\u05df 
+\u05db\u05d3\u05d9 \u
+05dc\u05e2\u05d6\u05d
+5\u05e8 \u05dc\u05da 
+\u05dc\u05e9\u05dc\u0
+5dd \u05e4\u05d7\u05d
+5\u05ea \u05d5\u05dc\
+u05e7\u05d1\u05dc \u0
+5d9\u05d5\u05ea\u05e8
+.\r\n\u05dc\u05e4\u05
+e0\u05d9 \u05e9\u05e0
+\u05ea\u05d7\u05d9\u0
+5dc \u05dc\u05d7\u05e
+1\u05d5\u05da 
+\u05dc\u05da \u05db\u
+05e1\u05e3... \u05de\
+u05db\u05d9\u05e8 \u0
+5d0\u05d5\u05ea\u05e0
+\u05d5?",
+      "buttons": [
+                     
+         {
+                     
+             "from": 
+"251982622584",
+                     
+             "id": "w
+amid.HBgMMjUxOTgyNjIy
+NTg0FQIAEhgWM0VCMEMyQ
+UQxMTcwRTcxM0YyQjUyMg
+A=",
+                     
+             
+"timestamp": 
+"1764592476",
+                     
+             "text": 
+{
+>                    
+                 
+"body": "start"
+                     
+             },
+                     
+             "type": 
+"text"
+                     
+         }
+                     
+     ]
+                     
+ },
+  }
+  [2025-12-01 
+13:34:38] [unknown] 
+Generated reply: {
+      "text": "\u200f
+\u05ea\u05de\u05d9\u0
+5d3 \u05e8\u05e6\u05d
+9\u05ea \u05dc\u05d7\
+u05e1\u05d5\u05da 
+\u05d0\u05d1\u05dc 
+\u05dc\u05d0 \u05d9\u
+05d3\u05e2\u05ea \u05
+de\u05d0\u05d9\u05e4\
+u05d4 \u05dc\u05d4\u0
+5ea\u05d7\u05d9\u05dc
+? \u05d0\u05e0\u05d7\
+u05e0\u05d5 
+\u05db\u05d0\u05df \u
+05d1\u05e9\u05d1\u05d
+9\u05dc\u05da!\r\n\u0
+5d0\u05e0\u05d7\u05e0
+\u05d5 \u05de\u05e2\u
+05e8\u05db\u05ea \u05
+dc\u05d1\u05d3\u05d9\
+u05e7\u05d4 \u05d0\u0
+5d5\u05d8\u05d5\u05de
+\u05d8\u05d9\u05ea \u
+05d5\u05d7\u05d9\u05e
+0\u05de\u05d9\u05ea 
+\u05e9\u05dc \u05d6\u
+05db\u05d0\u05d5\u05e
+a \u05dc\u05d4\u05e0\
+u05d7\u05d5\u05ea \u0
+5d5\u05d4\u05d8\u05d1
+\u05d5\u05ea \u05e9\u
+05e2\u05d5\u05d6\u05e
+8\u05d5\u05ea 
+\u05dc\u05da \u05dc\u
+05d7\u05e1\u05d5\u05d
+a \u05d4\u05e8\u05d1\
+u05d4 - \u05e8\u05d9\
+u05d1\u05d9\u05d5\u05
+ea, \u05d4\u05d7\u05d
+6\u05e8\u05d9 
+\u05de\u05e1 \u05d5\u
+05d0\u05e4\u05d9\u05d
+c\u05d5 \u05d7\u05e9\
+u05d1\u05d5\u05e0\u05
+d5\u05ea.\r\n\u05e9\u
+05e0\u05ea\u05d7\u05d
+9\u05dc?",
+      "buttons": [
+          {
+>             "id": 
+"lets_start",
+              
+"text": 
+"\u05d1\u05d5\u05d0 \
+u05e0\u05ea\u05d7\u05
+d9\u05dc"
+          }
+      ]
+  }
+  [2025-12-01 
+13:34:38] [unknown] 
+Incoming webhook 
+data (v2): {
+              
+"action": {
+                  
+"buttons": [
+                     
+ {
+                     
+     "type": "reply",
+                     
+     "reply": {
+>                    
+         "id": 
+"lets_start",
+                     
+         "title": 
+"\u05d1\u05d5\u05d0 \
+u05e0\u05ea\u05d7\u05
+d9\u05dc"
+                     
+     }
+                     
+ }
+                  ]
+              }
+                     
+         {
+                     
+             "from": 
+"251982622584",
+                     
+             "id": "w
+amid.HBgMMjUxOTgyNjIy
+NTg0FQIAEhgWM0VCMDE4O
+DNGQUJFNjgxOTQxMUI0Qw
+A=",
+                     
+             
+"timestamp": 
+"1764589449",
+                     
+             "text": 
+{
+>                    
+                 
+"body": "start"
+                     
+             },
+                     
+             "type": 
+"text"
+                     
+         }
+                     
+     ]
+ 
+      ]
+  }
+  [2025-12-01 
+13:38:05] [unknown] 
+Processing message {
+      "from": 
+"251982622584",
+      "type": "text",
+>     "text": 
+"start",
+      "message_id": "
+wamid.HBgMMjUxOTgyNjI
+yNTg0FQIAEhgWM0VCMDE4
+ODNGQUJFNjgxOTQxMUI0Q
+wA="
+  }05d9 \u
+05dc\u05e2\u05d6\u05d
+5\u05e8 \u05dc\u05da 
+\u05dc\u05e9\u05dc\u0
+5dd \u05e4\u05d7\u05d
+5\u05ea \u05d5\u05dc\
+u05e7\u05d1\u05dc \u0
+5d9\u05d5\u05ea\u05e8
+.\r\n\u05dc\u05e4\u05
+e0\u05d9 \u05e9\u05e0
+\u05ea\u05d7\u05d9\u0
+5dc \u05dc
+  [2025-12-01 
+13:38:05] [unknown] 
+Generated reply: {
+      "text": "\u200f
+\u05d4\u05d9\u05d9, 
+\u05d0\u05e0\u05d9 \u
+05e8\u05d5\u05d1\u05d
+9\u05df 
+\u05d4\u05d5\u05d3 
+(v2) - 
+\u05db\u05d0\u05df 
+\u05db\u05d3\u\u05d7\u05e
+1\u05d5\u05da 
+\u05dc\u05da \u05db\u
+05e1\u05e3... \u05de\
+u05db\u05d9\u05e8 \u0
+5d0\u05d5\u05ea\u05e0
+\u05d5?",
+      "buttons": [
+
+
